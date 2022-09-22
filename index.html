@@ -61,12 +61,18 @@ let tokStank={
           numberOfrecivers:5,
           usageMultiplier:0.2,
           cosinous:0.7
-        },thirrsss:{
+        },thirrssss:{
           powerNumber:12,
           numberOfrecivers:5,
           usageMultiplier:0.4,
           cosinous:0.7
-        }
+        },
+        thirrsssses:{
+          powerNumber:12,
+          numberOfrecivers:5,
+          usageMultiplier:0.4,
+          cosinous:0.7
+        },
         
 }
 
@@ -79,7 +85,7 @@ function findAlike(tokStanki){
         console.log(newObject);
         let object=tokStanki[keys[i]];
         if(sameGroup.length==0){
-            
+            // starts if there is no info 
             sameGroup.push([{
                 cosinous:tokStanki[keys[i]].cosinous,
                 powerNumber:tokStanki[keys[i]].powerNumber,
@@ -90,7 +96,10 @@ function findAlike(tokStanki){
             console.log('filled')    
             
         }else if(sameGroup.length!=0 && sameGroup[newObject][0].cosinous==tokStanki[keys[i]].cosinous &&sameGroup[newObject][0].usageMultiplier==tokStanki[keys[i]].usageMultiplier ){
+            console.log("samed");
+            console.log(sameGroup[newObject][sameGroup[newObject].length]=tokStanki);
             console.log(sameGroup)
+            
             
         }else {
             console.log('never');
@@ -104,10 +113,12 @@ function findAlike(tokStanki){
          }
         
     }
-    console.log(sameGroup)
+    return sameGroup;
 }
 
-findAlike(tokStank)
+let classified = findAlike(tokStank); 
+
+
 
 
 
