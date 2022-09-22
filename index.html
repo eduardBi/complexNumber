@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-size: 20px;
+        }
+        .minimized{
+            font-size: 15px;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+let tokStank={
+    firstPower:{
+          powerNumber:12,
+          numberOfrecivers:5,
+          usageMultiplier:0.2,
+          cosinous:0.65
+        },
+    secondPower:{
+          powerNumber:12,
+          numberOfrecivers:5,
+          usageMultiplier:0.2,
+          cosinous:0.65
+        },
+        thirs:{
+          powerNumber:12,
+          numberOfrecivers:5,
+          usageMultiplier:0.2,
+          cosinous:0.4
+        },thirrs:{
+          powerNumber:12,
+          numberOfrecivers:5,
+          usageMultiplier:0.2,
+          cosinous:0.7
+        },thirrsss:{
+          powerNumber:12,
+          numberOfrecivers:5,
+          usageMultiplier:0.4,
+          cosinous:0.7
+        }
+        
+}
+
+function findAlike(tokStanki){
+    let keys = Object.keys(tokStanki);
+    let sameGroup=[];
+    let newObject=0;
+    
+    for(let i=0;i<keys.length;i++){
+        console.log(newObject);
+        let object=tokStanki[keys[i]];
+        if(sameGroup.length==0){
+            
+            sameGroup.push([{
+                cosinous:tokStanki[keys[i]].cosinous,
+                powerNumber:tokStanki[keys[i]].powerNumber,
+                numberOfrecivers:tokStanki[keys[i]].numberOfrecivers,
+                usageMultiplier:tokStanki[keys[i]].usageMultiplier
+            }]);
+            
+            console.log('filled')    
+            
+        }else if(sameGroup.length!=0 && sameGroup[newObject][0].cosinous==tokStanki[keys[i]].cosinous &&sameGroup[newObject][0].usageMultiplier==tokStanki[keys[i]].usageMultiplier ){
+            console.log(sameGroup)
+            
+        }else {
+            console.log('never');
+            sameGroup.push([{
+                cosinous:tokStanki[keys[i]].cosinous,
+                powerNumber:tokStanki[keys[i]].powerNumber,
+                numberOfrecivers:tokStanki[keys[i]].numberOfrecivers,
+                usageMultiplier:tokStanki[keys[i]].usageMultiplier
+            }]);
+            newObject++;
+         }
+        
+    }
+    console.log(sameGroup)
+}
+
+findAlike(tokStank)
+
+
+
+</script></body>
+</html>
