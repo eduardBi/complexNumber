@@ -46,7 +46,7 @@ let tokStank={
           cosinous:0.65
         },
     secondPower:{
-          powerNumber:12,
+          powerNumber:13,
           numberOfrecivers:5,
           usageMultiplier:0.2,
           cosinous:0.65
@@ -118,13 +118,31 @@ function activePower(classified){
             currentNumber+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers;
 
     }   
-    console.log(currentNumber)
+    powerOfGroup.push(currentNumber) 
     }
+    console.log(powerOfGroup)
 }
 
 
 activePower(classified);
 
 
+function getEffectiveNumber(classified){
+    let powerOfGroup=[];
+    for(let i=0 ; i<classified.length;i++){
+        let maxNumber=0;
+        for(let j=0 ; j<classified[i].length;j++){
+        
+            if(classified[i][j].powerNumber>maxNumber){
+                powerOfGroup[i]=classified[i][j].powerNumber;
+            }
+            
+        }   
+     
+    }
+    console.log(powerOfGroup)   ;
+}
+
+getEffectiveNumber(classified)
 </script></body>
 </html>
