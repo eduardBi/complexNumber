@@ -41,38 +41,104 @@
 let tokStank={
     firstPower:{
           powerNumber:12,
+          numberOfrecivers:15,
+          usageMultiplier:0.2,
+          cosinous:0.65,
+          powerOfWork:1,
+          tangX:1.17
+        },second:{
+          powerNumber:5,
+          numberOfrecivers:4,
+          usageMultiplier:0.2,
+          cosinous:0.65,
+          powerOfWork:1,
+          tangX:1.17
+        },thirdONe:{
+          powerNumber:5,
+          numberOfrecivers:2,
+          usageMultiplier:0.2,
+          cosinous:0.65,
+          powerOfWork:1,
+          tangX:1.17
+        },fourth:{
+          powerNumber:9,
+          numberOfrecivers:2,
+          usageMultiplier:0.2,
+          cosinous:0.65,
+          powerOfWork:0.4,
+          tangX:1.17
+        },
+        fith:{
+          powerNumber:5.4,
+          numberOfrecivers:8,
+          usageMultiplier:0.2,
+          cosinous:0.65,
+          powerOfWork:0.4,
+          tangX:1.17
+        },
+        sixth:{
+          powerNumber:1,
+          numberOfrecivers:14,
+          usageMultiplier:0.2,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
+        },
+        seventh:{
+          powerNumber:5,
+          numberOfrecivers:8,
+          usageMultiplier:0.2,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
+        },
+        eightth:{
+          powerNumber:10,
+          numberOfrecivers:3,
+          usageMultiplier:0.2,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
+        },nineth:{
+          powerNumber:30,
+          numberOfrecivers:6,
+          usageMultiplier:0.2,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
+        },tenth:{
+          powerNumber:3,
+          numberOfrecivers:4,
+          usageMultiplier:0.2,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
+        },
+        eleventh:{
+          powerNumber:5,
+          numberOfrecivers:11,
+          usageMultiplier:0.2,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
+        },
+        twelth:{
+          powerNumber:15,
           numberOfrecivers:5,
           usageMultiplier:0.2,
-          cosinous:0.65
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
         },
-    secondPower:{
-          powerNumber:13,
-          numberOfrecivers:5,
+        thirteenth:{
+          powerNumber:31,
+          numberOfrecivers:2,
           usageMultiplier:0.2,
-          cosinous:0.65
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.17
         },
-        thirs:{
-          powerNumber:12,
-          numberOfrecivers:5,
-          usageMultiplier:0.2,
-          cosinous:0.4
-        },thirrs:{
-          powerNumber:12,
-          numberOfrecivers:5,
-          usageMultiplier:0.2,
-          cosinous:0.7
-        },thirrssss:{
-          powerNumber:12,
-          numberOfrecivers:5,
-          usageMultiplier:0.4,
-          cosinous:0.7
-        },
-        thirrsssses:{
-          powerNumber:12,
-          numberOfrecivers:5,
-          usageMultiplier:0.4,
-          cosinous:0.7
-        },
+        
         
 }
 
@@ -90,10 +156,10 @@ function findAlike(tokStanki){
             
             console.log('filled')    
             
-        }else if(sameGroup.length!=0 && sameGroup[newObject][0].cosinous==tokStanki[keys[i]].cosinous &&sameGroup[newObject][0].usageMultiplier==tokStanki[keys[i]].usageMultiplier ){
-            console.log("samed");
-            console.log(sameGroup[newObject][sameGroup[newObject].length]=tokStanki[keys[i]]);
-            console.log(sameGroup)
+        }else if(sameGroup.length!=0 && sameGroup[newObject][0].tangX==tokStanki[keys[i]].tangX &&sameGroup[newObject][0].usageMultiplier==tokStanki[keys[i]].usageMultiplier ){
+    
+            sameGroup[newObject][sameGroup[newObject].length]=tokStanki[keys[i]];
+            
             
             
         }else {
@@ -115,34 +181,82 @@ function activePower(classified){
     for(let i=0 ; i<classified.length;i++){
         let currentNumber=0;
         for(let j=0 ; j<classified[i].length;j++){
-            currentNumber+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers;
-
+            currentNumber+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers*classified[i][j].usageMultiplier;
     }   
-    powerOfGroup.push(currentNumber) 
+    
+    powerOfGroup.push({power:currentNumber,tangX:classified[i][0].tangX}) 
     }
     console.log(powerOfGroup)
+    return powerOfGroup
 }
 
 
-activePower(classified);
+let fullPowerOfGroup=activePower(classified);
+console.log(fullPowerOfGroup)
 
 
 function getEffectiveNumber(classified){
     let powerOfGroup=[];
+    let arrayOfefectiveNumbers=[];
     for(let i=0 ; i<classified.length;i++){
         let maxNumber=0;
+        let minNumber=0;
+
         for(let j=0 ; j<classified[i].length;j++){
-        
             if(classified[i][j].powerNumber>maxNumber){
                 powerOfGroup[i]=classified[i][j].powerNumber;
             }
-            
-        }   
-     
+        }
+        let effectiveNumberOfRecivers=(2*fullPowerOfGroup[i].power)/powerOfGroup[i]
+        arrayOfefectiveNumbers.push(effectiveNumberOfRecivers)
+        //можно заменить powerOfGroup[i] на макс намбер 
+        
+        
     }
-    console.log(powerOfGroup)   ;
+    console.log(arrayOfefectiveNumbers)
+    return   arrayOfefectiveNumbers;
+
 }
 
-getEffectiveNumber(classified)
+let arrayOfefectiveNumbers= getEffectiveNumber(classified)
+
+
+function reactivePOwer(array){
+    let fullPower=[];
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        if(arrayOfefectiveNumbers>10){
+            let reactivePower=1.1*array[i].tangX*array[i].power
+            fullPower.push(reactivePower)
+        }else{
+            let reactivePower=1*array[i].tangX*array[i].power
+            fullPower.push(reactivePower)
+        }    
+    }
+    console.log(fullPower)
+    return fullPower;
+}
+
+let reacivePowers=reactivePOwer(fullPowerOfGroup);
+
+
+function fullPowerOfFacility(array1 , array2){
+    let fullPowersArray=[];
+    let summedPower=0
+    for (let i = 0; i < array1.length; i++) {
+        console.log(array2)
+         let element = Math.sqrt(array1[i]+array2[i].power);
+         fullPowersArray.push(element)
+         summedPower+=element
+        
+    }
+    console.log(fullPowersArray)
+    console.log(summedPower)
+    return fullPowersArray
+
+}
+fullPowerOfFacility(reacivePowers,fullPowerOfGroup);
+
+
 </script></body>
 </html>
