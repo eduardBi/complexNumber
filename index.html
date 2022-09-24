@@ -137,6 +137,13 @@ let tokStank={
           cosinous:0.7,
           powerOfWork:0.4,
           tangX:1.17
+        },extreem:{
+          powerNumber:7,
+          numberOfrecivers:4,
+          usageMultiplier:0.7,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.14
         },
         
         
@@ -198,19 +205,31 @@ console.log(fullPowerOfGroup)
 function getEffectiveNumber(classified){
     let powerOfGroup=[];
     let arrayOfefectiveNumbers=[];
+    
     for(let i=0 ; i<classified.length;i++){
+
+    // прохожу по отсортированному массиву 
         let maxNumber=0;
         let minNumber=0;
-
-        for(let j=0 ; j<classified[i].length;j++){
-            if(classified[i][j].powerNumber>maxNumber){
-                powerOfGroup[i]=classified[i][j].powerNumber;
+        let sumOfPower=0;
+    for(let j=0 ; j<classified[i].length;j++)
+        {
+            // прохожу по каждому элементу в сгруппированном объeктe   
+            if(classified[i][j].powerNumber>maxNumber)
+            {
+                maxNumber=classified[i][j].powerNumber
+                
             }
+            sumOfPower+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers;            
         }
-        let effectiveNumberOfRecivers=(2*fullPowerOfGroup[i].power)/powerOfGroup[i]
+        
+        powerOfGroup[i]=sumOfPower
+    
+
+        let effectiveNumberOfRecivers=((2*powerOfGroup[i]))/maxNumber
+        
         arrayOfefectiveNumbers.push(effectiveNumberOfRecivers)
         //можно заменить powerOfGroup[i] на макс намбер 
-        
         
     }
     console.log(arrayOfefectiveNumbers)
@@ -221,15 +240,16 @@ function getEffectiveNumber(classified){
 let arrayOfefectiveNumbers= getEffectiveNumber(classified)
 
 
-function reactivePOwer(array){
+function reactivePOwer(array, arrayOfefectiveNumbers){
     let fullPower=[];
     for (let i = 0; i < array.length; i++) {
+        console.log(array)
         const element = array[i];
-        if(arrayOfefectiveNumbers>10){
-            let reactivePower=1.1*array[i].tangX*array[i].power
+        if(arrayOfefectiveNumbers[i]>10){
+            let reactivePower=1*array[i].tangX*array[i].power
             fullPower.push(reactivePower)
         }else{
-            let reactivePower=1*array[i].tangX*array[i].power
+            let reactivePower=1.1*array[i].tangX*array[i].power
             fullPower.push(reactivePower)
         }    
     }
@@ -237,7 +257,7 @@ function reactivePOwer(array){
     return fullPower;
 }
 
-let reacivePowers=reactivePOwer(fullPowerOfGroup);
+let reacivePowers=reactivePOwer(fullPowerOfGroup,arrayOfefectiveNumbers);
 
 
 function fullPowerOfFacility(array1 , array2){
@@ -245,7 +265,7 @@ function fullPowerOfFacility(array1 , array2){
     let summedPower=0
     for (let i = 0; i < array1.length; i++) {
         console.log(array2)
-         let element = Math.sqrt(array1[i]+array2[i].power);
+         let element = Math.sqrt(array1[i]*array1[i]+array2[i].power*array2[i].power);
          fullPowersArray.push(element)
          summedPower+=element
         
