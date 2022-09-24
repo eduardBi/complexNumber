@@ -65,7 +65,7 @@ let tokStank={
           numberOfrecivers:2,
           usageMultiplier:0.2,
           cosinous:0.65,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         fith:{
@@ -73,7 +73,7 @@ let tokStank={
           numberOfrecivers:8,
           usageMultiplier:0.2,
           cosinous:0.65,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         sixth:{
@@ -81,7 +81,7 @@ let tokStank={
           numberOfrecivers:14,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         seventh:{
@@ -89,7 +89,7 @@ let tokStank={
           numberOfrecivers:8,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         eightth:{
@@ -97,21 +97,21 @@ let tokStank={
           numberOfrecivers:3,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },nineth:{
           powerNumber:30,
           numberOfrecivers:6,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },tenth:{
           powerNumber:3,
           numberOfrecivers:4,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         eleventh:{
@@ -119,7 +119,7 @@ let tokStank={
           numberOfrecivers:11,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         twelth:{
@@ -127,7 +127,7 @@ let tokStank={
           numberOfrecivers:5,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
         },
         thirteenth:{
@@ -135,16 +135,25 @@ let tokStank={
           numberOfrecivers:2,
           usageMultiplier:0.2,
           cosinous:0.7,
-          powerOfWork:0.4,
+          powerOfWork:1,
           tangX:1.17
-        },extreem:{
+        },fourtenth:{
           powerNumber:7,
           numberOfrecivers:4,
           usageMultiplier:0.7,
           cosinous:0.7,
-          powerOfWork:0.4,
-          tangX:1.14
+          powerOfWork:1,
+          tangX:0.75
         },
+        fithteenth:{
+          powerNumber:10,
+          numberOfrecivers:3,
+          usageMultiplier:0.1,
+          cosinous:0.7,
+          powerOfWork:0.4,
+          tangX:1.73
+        },
+        
         
         
 }
@@ -188,7 +197,8 @@ function activePower(classified){
     for(let i=0 ; i<classified.length;i++){
         let currentNumber=0;
         for(let j=0 ; j<classified[i].length;j++){
-            currentNumber+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers*classified[i][j].usageMultiplier;
+            currentNumber+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers*classified[i][j].usageMultiplier*Math.sqrt(classified[i][j].powerOfWork);
+            console.log(classified[i][j].powerNumber*classified[i][j].numberOfrecivers*classified[i][j].usageMultiplier*Math.sqrt(classified[i][j].powerOfWork))
     }   
     
     powerOfGroup.push({power:currentNumber,tangX:classified[i][0].tangX}) 
@@ -264,14 +274,15 @@ function fullPowerOfFacility(array1 , array2){
     let fullPowersArray=[];
     let summedPower=0
     for (let i = 0; i < array1.length; i++) {
-        console.log(array2)
+        
          let element = Math.sqrt(array1[i]*array1[i]+array2[i].power*array2[i].power);
          fullPowersArray.push(element)
          summedPower+=element
         
     }
+    
     console.log(fullPowersArray)
-    console.log(summedPower)
+
     return fullPowersArray
 
 }
