@@ -12,7 +12,10 @@
         .minimized{
             font-size: 15px;
         }
-
+        img{
+          width: 300px !important;
+        }
+        
         
     </style>
 </head>
@@ -25,7 +28,143 @@
 
 
 
+<table>
+  <tr>
+    <div>
+    <td>
+      <div style="text-indent: 100px">вариант</div>
+      <hr style="transform: rotate(20deg);">
+      <div>формула</div>
+    </td>
+  </div>
 
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td>13</td>
+    <td>14</td>
+    <td>15</td>
+    <td>16</td>
+    <td>17</td>
+    <td>18</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+  </div>
+
+  </tr>
+  <tr>
+    <td><img src="./Безымянный1.png" style="width: 200px;" alt=""></td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td>13</td>
+    <td>14</td>
+    <td>15</td>
+    <td>16</td>
+    <td>17</td>
+    <td>18</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+
+  </tr>
+  <tr>
+    <td><img src="./Безымянный2.png" style="width: 200px;" alt=""></td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+    <td>10</td>
+    <td>11</td>
+    <td>12</td>
+    <td>13</td>
+    <td>14</td>
+    <td>15</td>
+    <td>16</td>
+    <td>17</td>
+    <td>18</td>
+    <td>19</td>
+    <td>20</td>
+    <td>21</td>
+
+    </tr>
+    <tr>
+      <td><img src="./Безымянный3.png" style="width: 200px;" alt=""></td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+      <td>12</td>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+      <td>16</td>
+      <td>17</td>
+      <td>18</td>
+      <td>19</td>
+      <td>20</td>
+      <td>21</td>
+
+      
+    </tr>
+    <tr>
+      <td><img src="./Безымянный4.png" style="width: 200px;" alt=""></td>
+    
+
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+      <td>12</td>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+      <td>16</td>
+      <td>17</td>
+      <td>18</td>
+      <td>19</td>
+      <td>20</td>
+      <td>21</td>
+    </tr>
+</table>
 
 
 
@@ -37,6 +176,7 @@
 
 <script>
 
+let currentVariant=1;
 
 let tokStank={
     firstPower:{
@@ -200,10 +340,21 @@ function activePower(classified){
             currentNumber+=classified[i][j].powerNumber*classified[i][j].numberOfrecivers*classified[i][j].usageMultiplier*Math.sqrt(classified[i][j].powerOfWork);
             console.log(classified[i][j].powerNumber*classified[i][j].numberOfrecivers*classified[i][j].usageMultiplier*Math.sqrt(classified[i][j].powerOfWork))
     }   
+    let children=document.querySelectorAll("table")
+ // последний элемент значение в ряду /стартовый индекс  с 3  
+ //предпоследний - это  ряд варианта / стартовый индекс 2 
+    children[0].childNodes[1].childNodes[2].childNodes[3].innerHTML+=''
+    children[0].childNodes[1].childNodes[2].childNodes[2+currentVariant].innerHTML+='<div>'+currentNumber+'</div>'
+    
     
     powerOfGroup.push({power:currentNumber,tangX:classified[i][0].tangX}) 
     }
-    console.log(powerOfGroup)
+    
+    
+
+      
+      
+    
     return powerOfGroup
 }
 
@@ -238,6 +389,13 @@ function getEffectiveNumber(classified){
 
         let effectiveNumberOfRecivers=((2*powerOfGroup[i]))/maxNumber
         
+
+        let children=document.querySelectorAll("table")
+ // последний элемент значение в ряду /стартовый индекс  с 3  
+ //предпоследний - это  ряд варианта / стартовый индекс 2 увеличивается каждые два раза
+    
+    children[0].childNodes[1].childNodes[4].childNodes[2+currentVariant].innerHTML+='<div>'+effectiveNumberOfRecivers+'</div>'
+
         arrayOfefectiveNumbers.push(effectiveNumberOfRecivers)
         //можно заменить powerOfGroup[i] на макс намбер 
         
@@ -261,7 +419,16 @@ function reactivePOwer(array, arrayOfefectiveNumbers){
         }else{
             let reactivePower=1.1*array[i].tangX*array[i].power
             fullPower.push(reactivePower)
-        }    
+        }
+        
+        let children=document.querySelectorAll("table")
+ // последний элемент значение в ряду /стартовый индекс  с 3  
+ //предпоследний - это  ряд варианта / стартовый индекс 2 увеличивается каждые два раза
+    
+    children[0].childNodes[1].childNodes[6].childNodes[2+currentVariant].innerHTML+='<div>'+fullPower[i]+'</div>'
+
+
+
     }
     console.log(fullPower)
     return fullPower;
@@ -269,7 +436,7 @@ function reactivePOwer(array, arrayOfefectiveNumbers){
 
 let reacivePowers=reactivePOwer(fullPowerOfGroup,arrayOfefectiveNumbers);
 
-
+console.log(currentVariant)
 function fullPowerOfFacility(array1 , array2){
     let fullPowersArray=[];
     let summedPower=0
@@ -277,17 +444,27 @@ function fullPowerOfFacility(array1 , array2){
         
          let element = Math.sqrt(array1[i]*array1[i]+array2[i].power*array2[i].power);
          fullPowersArray.push(element)
+
+
+         
+        let children=document.querySelectorAll("table")
+ // последний элемент значение в ряду /стартовый индекс  с 3  
+ //предпоследний - это  ряд варианта / стартовый индекс 2 увеличивается каждые два раза
+    
+
+    children[0].childNodes[1].childNodes[8].childNodes[2+currentVariant].innerHTML+='<div>'+element+'</div>'
+
          summedPower+=element
         
     }
     
     console.log(fullPowersArray)
-
+    currentVariant++;
     return fullPowersArray
 
 }
 fullPowerOfFacility(reacivePowers,fullPowerOfGroup);
-
+console.log(currentVariant);
 
 </script></body>
 </html>
