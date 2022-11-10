@@ -9,22 +9,67 @@
 <body>
     <script src="./Complex.js/complex.js"></script>
     <script>
+        console.log(Complex(6.76,1.56).add(Complex(15,-17.62)))
         let dataInput={
             firstBranch:{
-                condansation:125,
                 coil:25,
+                condens:125,
                 resistance:15,
                 isStraight:true
             },
             secondBranch:{
                 coil:80,
-                resistance:12
+                resistance:12,
+                isStraight:false
             },
-            firstBranch:{
-                resistance:8
+            thirdbranch:{
+                resistance:8,
+                isStraight:false 
             }
         }
-        console.log(Complex(6.76,1.56).add(Complex(15,-17.62)))
+        let frequency=50
+            function reactiveResist (dataInput){
+                let reactiveResictance=[]
+                let arrayOfKeys=Object.keys(dataInput);
+
+                for(let i=0;i<arrayOfKeys.length;i++){
+
+                    
+                    
+                    if(dataInput[arrayOfKeys[i]].coil && dataInput[arrayOfKeys[i]].condens){
+                              reactiveResictance.push({...dataInput[arrayOfKeys[i]],
+                                reactiveResistenceOfCoil:2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3,
+                                reactiveResistenceOfCondense:1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6),
+                            })
+                              
+                        
+                        }else   if(dataInput[arrayOfKeys[i]].coil && !dataInput[arrayOfKeys[i]].condens)
+                        {
+                            
+                            reactiveResictance.push({...dataInput[arrayOfKeys[i]],
+                                reactiveResistenceOfCoil:2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3,
+                                
+                            })
+                    
+                        
+                }else   if(!dataInput[arrayOfKeys[i]].coil && dataInput[arrayOfKeys[i]].condens){
+                            
+                            
+                    reactiveResictance.push({...dataInput[arrayOfKeys[i]],
+                                reactiveResistenceOfCondense:1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6),
+                            })
+                        
+                }else {
+
+                
+
+                }
+            
+        }
+            return reactiveResictance
+            
+            }
+            console.log(reactiveResist(dataInput))
         
         
 
