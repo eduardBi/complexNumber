@@ -60,19 +60,46 @@
                             })
                         
                 }else {
-
-                
+                    reactiveResictance.push({...dataInput[arrayOfKeys[i]]})            
 
                 }
             
         }
             return reactiveResictance
             
-            }
-            console.log(reactiveResist(dataInput))
+}
+            let outputOfReactiveResiters= reactiveResist(dataInput)
         
+        function fullResistenceOfBranch(dataWithReactiveResictence){
+                let putchedBranchesResist=[];
+                console.log(dataWithReactiveResictence)
+                
+                for (let i = 0; i < dataWithReactiveResictence.length; i++) {
         
+                let currentFullResistence=0;  
 
+                dataWithReactiveResictence[i].hasOwnProperty('reactiveResistenceOfCondense') ? currentFullResistence=currentFullResistence+dataWithReactiveResictence[i].reactiveResistenceOfCondense :0
+
+
+                dataWithReactiveResictence[i].hasOwnProperty('reactiveResistenceOfCoil') ? currentFullResistence=currentFullResistence+dataWithReactiveResictence[i].reactiveResistenceOfCoil :0
+
+
+                dataWithReactiveResictence[i].hasOwnProperty('resistance') ? currentFullResistence=currentFullResistence+dataWithReactiveResictence[i].resistance :0
+
+                putchedBranchesResist.push(
+                                {...dataWithReactiveResictence[i],
+                                }
+                )
+                        
+                    
+                        
+                    
+                    
+                console.log(currentFullResistence)
+                }
+                
+        }
+        fullResistenceOfBranch(outputOfReactiveResiters)
 
         
         
