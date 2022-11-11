@@ -135,16 +135,29 @@
 
         function fullVoltage(startVoltage,angle){
             console.log(startVoltage , angle)
-        }
-        fullVoltage(startVoltage ,psy)
+            console.log(startVoltage/Math.sqrt(2)+'e^'+angle)
+            let hipotinize=Math.asin(angle/57.29)
+            let bSide=startVoltage*Math.cos(angle/57.29)
+            let aSide=startVoltage*Math.sin(angle/57.29)
+            console.log(Math.cos(angle/57.29))
+            console.log(Math.sin(angle/57.29))
+            console.log(aSide)
+            console.log(bSide)
 
-        function putchToSignFormula(){
-            let signPutcher=Complex(15,-17.62)
+
+        }
+        fullVoltage(12.9,94.8)
+
+/*
+        function putchToSignFormula(signPutcher){
+            
             let forAsinFunc=signPutcher['im']/(Math.sqrt(signPutcher['re']**2+signPutcher['im']**2))
         console.log(Math.asin(forAsinFunc)*57.29)
         }
         
-        
+        putchToSignFormula(Complex(6.76,1.56))
+
+        */
         
     </script>
 </body>
