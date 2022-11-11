@@ -130,7 +130,7 @@
             
             return sumOfStraight.add(sumOfParralel)
         }
-        resictenceOfChain(putchedBranchedsResictence)
+        let fullResictance=resictenceOfChain(putchedBranchedsResictence)
         
 
         function fullVoltage(startVoltage,angle){
@@ -143,8 +143,38 @@
 
 
         }
-        console.log(fullVoltage(startVoltage,psy))
+        let fullVolatgeInchain=fullVoltage(startVoltage,psy)
+
+
+        function currentInAllBranches(fullVolatgeInchain,fullResictance){
+            console.log(fullVolatgeInchain)
+            console.log(fullResictance)
+
+            return fullVolatgeInchain.div(fullResictance)
+
+        }
+        let fullCurrentInChain=currentInAllBranches(fullVolatgeInchain,fullResictance)
         
+        function VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence){
+            let switchFlag=0;
+            let voltageOnEachBranch=[];
+            let parralelResistance=0
+            console.log(putchedBranchedsResictence)
+            for (let i = 0; i < putchedBranchedsResictence.length; i++) {
+                
+                if(putchedBranchedsResictence[i]){
+                    voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
+                    
+                }
+                
+                
+                
+            }
+            console.log(voltageOnEachBranch)
+
+        }
+        VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence)
+
         /*
         function signToComplex(length,angle){
             let hipotinize=Math.asin(angle/57.29)
