@@ -137,18 +137,23 @@
             console.log(startVoltage , angle)
             console.log(startVoltage/Math.sqrt(2)+'e^'+angle)
             let hipotinize=Math.asin(angle/57.29)
-            let bSide=startVoltage*Math.cos(angle/57.29)
-            let aSide=startVoltage*Math.sin(angle/57.29)
-            console.log(Math.cos(angle/57.29))
-            console.log(Math.sin(angle/57.29))
-            console.log(aSide)
-            console.log(bSide)
 
 
         }
         fullVoltage(12.9,94.8)
 
-/*
+        /*
+        function signToComplex(length,angle){
+            let hipotinize=Math.asin(angle/57.29)
+            let bSide=length*Math.cos(angle/57.29)
+            let aSide=length*Math.sin(angle/57.29)
+            console.log(bSide)
+            console.log(aSide)
+        }
+        signToComplex(1.86,81.8)
+
+
+
         function putchToSignFormula(signPutcher){
             
             let forAsinFunc=signPutcher['im']/(Math.sqrt(signPutcher['re']**2+signPutcher['im']**2))
