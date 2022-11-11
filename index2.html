@@ -25,7 +25,9 @@
             thirdbranch:{
                 resistance:8,
                 isStraight:false 
-            }
+            },
+
+            
         }
         let frequency=50
         let psy=180/4
@@ -127,7 +129,7 @@
             }else{
 
             }
-            
+            console.log(sumOfStraight)
             return sumOfStraight.add(sumOfParralel)
         }
         let fullResictance=resictenceOfChain(putchedBranchedsResictence)
@@ -158,20 +160,40 @@
         function VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence){
             let switchFlag=0;
             let voltageOnEachBranch=[];
-            let parralelResistance=0
-            console.log(putchedBranchedsResictence)
+            let parralelResistance=Complex(0,0);
+            let arrayOfParralel=[];
+            console.log(fullCurrentInChain)
             for (let i = 0; i < putchedBranchedsResictence.length; i++) {
                 
-                if(putchedBranchedsResictence[i]){
+                if(putchedBranchedsResictence[i].isStraight && switchFlag==0 ){
                     voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
-                    
+                    console.log(1)
+                }else if((putchedBranchedsResictence[i].isStraight && switchFlag==1) )
+                {
+                    console.log(2)
+                    parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
+                    console.log(parralelResistance)
+                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+                    console.log(fullCurrentInChain)
+                    switchFlag=0
+                }else if(!putchedBranchedsResictence[i].isStraight &&putchedBranchedsResictence.length==i+1 ){
+                    console.log(3)
+                    switchFlag=1
+                    arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
+
+                    parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
+                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+                }else{
+                    console.log(4)
+                    switchFlag=1
+                    arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
                 }
                 
                 
                 
             }
             console.log(voltageOnEachBranch)
-
+// код повторяется нужно сделать функцию которая возвращаеттолько сопротивление для каждого соединения ветвей paralleresistance=[], может считать только сопративление двух ветвей 
         }
         VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence)
 
