@@ -134,14 +134,17 @@
         
 
         function fullVoltage(startVoltage,angle){
-            console.log(startVoltage , angle)
-            console.log(startVoltage/Math.sqrt(2)+'e^'+angle)
-            let hipotinize=Math.asin(angle/57.29)
+            let complexVoltageString=startVoltage/Math.sqrt(2)+'e^'+angle
+            let complexVoltageValue=startVoltage/Math.sqrt(2)
+
+            let bSide=complexVoltageValue*Math.cos(angle/57.29)
+            let aSide=complexVoltageValue*Math.sin(angle/57.29)
+            return Complex(aSide,bSide)
 
 
         }
-        fullVoltage(12.9,94.8)
-
+        console.log(fullVoltage(startVoltage,psy))
+        
         /*
         function signToComplex(length,angle){
             let hipotinize=Math.asin(angle/57.29)
