@@ -28,6 +28,9 @@
             }
         }
         let frequency=50
+        let psy=180/4
+        let startVoltage=50*Math.sqrt(2)
+
             function reactiveResist (dataInput){
                 let reactiveResictance=[]
                 let arrayOfKeys=Object.keys(dataInput);
@@ -124,15 +127,24 @@
             }else{
 
             }
-            console.log(sumOfStraight.add(sumOfParralel).sign())
+            
             return sumOfStraight.add(sumOfParralel)
         }
         resictenceOfChain(putchedBranchedsResictence)
         
 
         function fullVoltage(startVoltage,angle){
-
+            console.log(startVoltage , angle)
         }
+        fullVoltage(startVoltage ,psy)
+
+        function putchToSignFormula(){
+            let signPutcher=Complex(15,-17.62)
+            let forAsinFunc=signPutcher['im']/(Math.sqrt(signPutcher['re']**2+signPutcher['im']**2))
+        console.log(Math.asin(forAsinFunc)*57.29)
+        }
+        
+        
         
     </script>
 </body>
