@@ -9,7 +9,7 @@
 <body>
     <script src="./Complex.js/complex.js"></script>
     <script>
-        console.log(Complex(6.76,1.56).add(Complex(15,-17.62)))
+        
         let dataInput={
             firstBranch:{
                 coil:25,
@@ -39,7 +39,7 @@
                     if(dataInput[arrayOfKeys[i]].coil && dataInput[arrayOfKeys[i]].condens){
                               reactiveResictance.push({...dataInput[arrayOfKeys[i]],
                                 reactiveResistenceOfCoil:2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3,
-                                reactiveResistenceOfCondense:1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6),
+                                reactiveResistenceOfCondense:1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6*-1),
                             })
                               
                         
@@ -56,7 +56,7 @@
                             
                             
                     reactiveResictance.push({...dataInput[arrayOfKeys[i]],
-                                reactiveResistenceOfCondense:1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6),
+                                reactiveResistenceOfCondense:1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6*-1),
                             })
                         
                 }else {
@@ -72,36 +72,67 @@
         
         function fullResistenceOfBranch(dataWithReactiveResictence){
                 let putchedBranchesResist=[];
-                console.log(dataWithReactiveResictence)
+                
                 
                 for (let i = 0; i < dataWithReactiveResictence.length; i++) {
         
-                let currentFullResistence=0;  
-
-                dataWithReactiveResictence[i].hasOwnProperty('reactiveResistenceOfCondense') ? currentFullResistence=currentFullResistence+dataWithReactiveResictence[i].reactiveResistenceOfCondense :0
-
-
-                dataWithReactiveResictence[i].hasOwnProperty('reactiveResistenceOfCoil') ? currentFullResistence=currentFullResistence+dataWithReactiveResictence[i].reactiveResistenceOfCoil :0
+                let currentFullResistence=Complex(0,0);  
+                    
+                dataWithReactiveResictence[i].hasOwnProperty('reactiveResistenceOfCondense') ? currentFullResistence=currentFullResistence.add(0,dataWithReactiveResictence[i].reactiveResistenceOfCondense):''
 
 
-                dataWithReactiveResictence[i].hasOwnProperty('resistance') ? currentFullResistence=currentFullResistence+dataWithReactiveResictence[i].resistance :0
+                dataWithReactiveResictence[i].hasOwnProperty('reactiveResistenceOfCoil') ? currentFullResistence=currentFullResistence.add(0,dataWithReactiveResictence[i].reactiveResistenceOfCoil):''
+
+                dataWithReactiveResictence[i].hasOwnProperty('resistance') ? currentFullResistence=currentFullResistence.add(dataWithReactiveResictence[i].resistance,0):''
 
                 putchedBranchesResist.push(
                                 {...dataWithReactiveResictence[i],
+                                    fullResistenceOfBranch:currentFullResistence
                                 }
                 )
                         
                     
-                        
-                    
-                    
-                console.log(currentFullResistence)
                 }
                 
+                
+                return putchedBranchesResist
         }
-        fullResistenceOfBranch(outputOfReactiveResiters)
+        let putchedBranchedsResictence=fullResistenceOfBranch(outputOfReactiveResiters);
 
+        function resictenceOfChain(fullResistenceOfBranch){
+            
+            let arrayOfParralel=[];
+            let sumOfStraight=Complex(0,0);
+            let sumOfParralel=Complex(0,0);
+            
+            for (let i = 0; i < fullResistenceOfBranch.length; i++) {
+                 fullResistenceOfBranch[i].fullResistenceOfBranch
+                 
+
+                if(fullResistenceOfBranch[i].isStraight){
+                    sumOfStraight=sumOfStraight.add(fullResistenceOfBranch[i].fullResistenceOfBranch)
+                    console.log(sumOfStraight)
+                 }else{
+                    arrayOfParralel.push(fullResistenceOfBranch[i].fullResistenceOfBranch)
+                 }
+                
+            }
+            if(arrayOfParralel.length==2){
+                sumOfParralel=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
+                
+                
+            }else{
+
+            }
+            console.log(sumOfStraight.add(sumOfParralel).sign())
+            return sumOfStraight.add(sumOfParralel)
+        }
+        resictenceOfChain(putchedBranchedsResictence)
         
+
+        function fullVoltage(startVoltage,angle){
+
+        }
         
     </script>
 </body>
