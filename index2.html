@@ -255,13 +255,43 @@
 
 
         function momentumCurrent(AllCurrents){
-            console.log(AllCurrents)
-            console.log(AllCurrents)
+            let momentumCurrents=[];
+
+            console.log(momentumCurrents)
+            for (let i = 0; i < AllCurrents.length; i++) {
+                console.log(AllCurrents[i])
+                let angleAndLength=putchToSignFormula(AllCurrents[i])
+                momentumCurrents.push((angleAndLength.length*Math.sqrt(2)).toFixed(2)+'*sin(' +(2*Math.PI*frequency).toFixed(2)+'t+'+angleAndLength.angle.toFixed(2)+')')
+
+            }
+            return momentumCurrents
+
             
         }
         
+        momentumCurrent(AllCurrents)
 
-        /*
+        function momentumVoltageOneachBranch(startVoltage,voltageOnEachBranch){
+
+            let momentumVoltage=[]
+
+
+            
+            momentumVoltage.push((Math.sqrt(2)*Math.sqrt(startVoltage.re**2+startVoltage.im**2)).toFixed(2)+'*(sin'+(2*Math.PI*frequency).toFixed(2)+'t+'+psy+')')
+
+
+            for (let i = 0; i < voltageOnEachBranch.length; i++) {
+                
+                
+            }
+            
+            console.log(momentumVoltage);
+
+        }
+
+        momentumVoltageOneachBranch(fullVolatgeInchain,voltageOnEachBranch)
+
+    
         function signToComplex(length,angle){
             let hipotinize=Math.asin(angle/57.29)
             let bSide=length*Math.cos(angle/57.29)
@@ -269,19 +299,22 @@
             console.log(bSide)
             console.log(aSide)
         }
-        signToComplex(1.86,81.8)
-
-
+        //signToComplex(1.86,81.8)
+        //putchToSignFormula(Complex(6.76,1.56))
 
         function putchToSignFormula(signPutcher){
             
             let forAsinFunc=signPutcher['im']/(Math.sqrt(signPutcher['re']**2+signPutcher['im']**2))
-        console.log(Math.asin(forAsinFunc)*57.29)
+
+            return {
+                angle:Math.asin(forAsinFunc)*57.29,
+                length:Math.sqrt(signPutcher['re']**2+signPutcher['im']**2)
+            }
         }
         
-        putchToSignFormula(Complex(6.76,1.56))
+        
 
-        */
+        
         
     </script>
 </body>
