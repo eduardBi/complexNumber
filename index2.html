@@ -13,13 +13,13 @@
         let dataInput={
             firstBranch:{
                 coil:25,
-                condens:125,
                 resistance:15,
+                condens:125,
                 isStraight:true
             },
             secondBranch:{
-                coil:80,
                 resistance:12,
+                coil:80,
                 isStraight:false
             },
             thirdbranch:{
@@ -69,6 +69,7 @@
                 }
             
         }
+        
             return reactiveResictance
             
 }
@@ -98,11 +99,11 @@
                     
                 }
                 
-                
+                console.log(putchedBranchesResist)
                 return putchedBranchesResist
         }
         let putchedBranchedsResictence=fullResistenceOfBranch(outputOfReactiveResiters);
-
+        //повторяется с низу 
         function resictenceOfChain(fullResistenceOfBranch){
             
             let arrayOfParralel=[];
@@ -128,8 +129,10 @@
             }else{
 
             }
-            console.log(sumOfStraight)
+            
             return sumOfStraight.add(sumOfParralel)
+
+
         }
         let fullResictance=resictenceOfChain(putchedBranchedsResictence)
         
@@ -140,7 +143,9 @@
 
             let bSide=complexVoltageValue*Math.cos(angle/57.29)
             let aSide=complexVoltageValue*Math.sin(angle/57.29)
-            return Complex(aSide,bSide)
+
+            console.log(Complex(bSide,aSide))
+            return Complex(bSide,aSide)
 
 
         }
@@ -247,6 +252,15 @@
 
         }
         VoltageOnEachElemet(AllCurrents,dataInput)
+
+
+        function momentumCurrent(AllCurrents){
+            console.log(AllCurrents)
+            console.log(AllCurrents)
+            
+        }
+        
+
         /*
         function signToComplex(length,angle){
             let hipotinize=Math.asin(angle/57.29)
