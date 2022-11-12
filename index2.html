@@ -25,8 +25,7 @@
             thirdbranch:{
                 resistance:8,
                 isStraight:false 
-            },
-
+            }
             
         }
         let frequency=50
@@ -172,9 +171,15 @@
                 {
                     console.log(2)
                     parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
-                    console.log(parralelResistance)
+                    
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
                     console.log(fullCurrentInChain)
+                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+                    //double push handels voltage on two branches with same index branch-voltage
+
+                    voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
+                    // handels if last one isn't parralel
+
                     switchFlag=0
                 }else if(!putchedBranchedsResictence[i].isStraight &&putchedBranchedsResictence.length==i+1 ){
                     console.log(3)
@@ -183,19 +188,36 @@
 
                     parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+                    //double push handels voltage on two branches with same index branch-voltage
                 }else{
                     console.log(4)
                     switchFlag=1
                     arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
                 }
-                
+                // код повторяется нужно сделать функцию которая возвращаеттолько сопротивление для каждого соединения ветвей paralleresistance=[], может считать только сопративление двух ветвей                 
                 
                 
             }
-            console.log(voltageOnEachBranch)
-// код повторяется нужно сделать функцию которая возвращаеттолько сопротивление для каждого соединения ветвей paralleresistance=[], может считать только сопративление двух ветвей 
+            return voltageOnEachBranch
+
         }
-        VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence)
+        let voltageOnEachBranch= VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence);
+        console.log(voltageOnEachBranch)
+
+        function currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence){
+            //просчитываем так на всех ветвях кроме первого
+                let arrayOfCurrents=[fullCurrentInChain]
+                for (let i = 1; i < voltageOnEachBranch.length; i++) {
+                    console.log(voltageOnEachBranch[i])
+                    console.log(putchedBranchedsResictence[i].fullResistenceOfBranch)
+                    console.log(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
+
+                    
+                }
+
+        }
+        currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence)
 
         /*
         function signToComplex(length,angle){
