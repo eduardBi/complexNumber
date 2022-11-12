@@ -209,16 +209,44 @@
             //просчитываем так на всех ветвях кроме первого
                 let arrayOfCurrents=[fullCurrentInChain]
                 for (let i = 1; i < voltageOnEachBranch.length; i++) {
-                    console.log(voltageOnEachBranch[i])
-                    console.log(putchedBranchedsResictence[i].fullResistenceOfBranch)
-                    console.log(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
-
                     
+                    arrayOfCurrents.push(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
                 }
+                return arrayOfCurrents;
 
         }
-        currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence)
+        let AllCurrents=currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence);
+        
+        function VoltageOnEachElemet (AllCurrents,dataInput){
 
+            let arrayOfKeys=Object.keys(dataInput)
+            let resistanceOnEachelement=[]
+            for(let i=0;i<arrayOfKeys.length;i++){
+
+
+                if(dataInput[arrayOfKeys[i]].coil){
+
+                    resistanceOnEachelement.push({name:`Coil${i+1}`,voltageonCoil:AllCurrents[i].mul(Complex(0,2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3))})
+
+                }
+                if(dataInput[arrayOfKeys[i]].condens){
+
+                    resistanceOnEachelement.push({name:`condense${i+1}`,voltageonCondense:AllCurrents[i].mul(0,Complex(1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6*-1)))})
+
+                }
+                if(dataInput[arrayOfKeys[i]].resistance){
+
+                    resistanceOnEachelement.push({name:`resist${i+1}`,voltageonResist:AllCurrents[i].mul(Complex(dataInput[arrayOfKeys[i]].resistance,0))})
+
+                }
+
+            }
+
+            console.log(resistanceOnEachelement)
+            return resistanceOnEachelement
+
+        }
+        VoltageOnEachElemet(AllCurrents,dataInput)
         /*
         function signToComplex(length,angle){
             let hipotinize=Math.asin(angle/57.29)
