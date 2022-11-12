@@ -204,6 +204,7 @@
                 
                 
             }
+            console.log(voltageOnEachBranch)
             return voltageOnEachBranch
 
         }
@@ -217,6 +218,7 @@
                     
                     arrayOfCurrents.push(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
                 }
+                
                 return arrayOfCurrents;
 
         }
@@ -231,17 +233,17 @@
 
                 if(dataInput[arrayOfKeys[i]].coil){
 
-                    resistanceOnEachelement.push({name:`Coil${i+1}`,voltageonCoil:AllCurrents[i].mul(Complex(0,2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3))})
+                    resistanceOnEachelement.push({name:`Coil${i+1}`,voltageonElemen:AllCurrents[i].mul(Complex(0,2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3))})
 
                 }
                 if(dataInput[arrayOfKeys[i]].condens){
 
-                    resistanceOnEachelement.push({name:`condense${i+1}`,voltageonCondense:AllCurrents[i].mul(0,Complex(1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6*-1)))})
+                    resistanceOnEachelement.push({name:`condense${i+1}`,voltageonElemen:AllCurrents[i].mul(0,Complex(1/(Math.PI*frequency*2*dataInput[arrayOfKeys[i]].condens*10**-6*-1)))})
 
                 }
                 if(dataInput[arrayOfKeys[i]].resistance){
 
-                    resistanceOnEachelement.push({name:`resist${i+1}`,voltageonResist:AllCurrents[i].mul(Complex(dataInput[arrayOfKeys[i]].resistance,0))})
+                    resistanceOnEachelement.push({name:`resist${i+1}`,voltageonElemen:AllCurrents[i].mul(Complex(dataInput[arrayOfKeys[i]].resistance,0))})
 
                 }
 
@@ -251,7 +253,7 @@
             return resistanceOnEachelement
 
         }
-        VoltageOnEachElemet(AllCurrents,dataInput)
+        let eachVoltage=VoltageOnEachElemet(AllCurrents,dataInput)
 
 
         function momentumCurrent(AllCurrents){
@@ -264,6 +266,7 @@
                 momentumCurrents.push((angleAndLength.length*Math.sqrt(2)).toFixed(2)+'*sin(' +(2*Math.PI*frequency).toFixed(2)+'t+'+angleAndLength.angle.toFixed(2)+')')
 
             }
+            console.log(momentumCurrents)
             return momentumCurrents
 
             
@@ -274,15 +277,18 @@
         function momentumVoltageOneachBranch(startVoltage,voltageOnEachBranch){
 
             let momentumVoltage=[]
-
-
             
             momentumVoltage.push((Math.sqrt(2)*Math.sqrt(startVoltage.re**2+startVoltage.im**2)).toFixed(2)+'*(sin'+(2*Math.PI*frequency).toFixed(2)+'t+'+psy+')')
 
 
             for (let i = 0; i < voltageOnEachBranch.length; i++) {
                 
+                let angleAndLength=putchToSignFormula(voltageOnEachBranch[i])
+                momentumVoltage.push((angleAndLength.length*Math.sqrt(2)).
+                toFixed(2)+'*sin(' +(2*Math.PI*frequency).toFixed(2)+'t+('
+                +angleAndLength.angle.toFixed(2)+'))')
                 
+
             }
             
             console.log(momentumVoltage);
@@ -290,6 +296,29 @@
         }
 
         momentumVoltageOneachBranch(fullVolatgeInchain,voltageOnEachBranch)
+
+
+        function momentumVoltageOneachElement(eachVoltage){
+                    
+                let MomentumVoltageOfEachElement=[];
+                for (let i = 0; i < eachVoltage.length; i++) {
+                    
+                    let angleAndLength=putchToSignFormula(eachVoltage[i].voltageonElemen)
+                    
+
+                    MomentumVoltageOfEachElement.push({...eachVoltage[i],
+                    momenumVoltage:(angleAndLength.length*Math.sqrt(2)).
+                    toFixed(2)+'*sin(' +(2*Math.PI*frequency).toFixed(2)+'t+('
+                    +angleAndLength.angle.toFixed(2)+'))'   
+                    })
+                    
+                    
+                }
+
+                    return  MomentumVoltageOfEachElement;
+        }
+
+        console.log(momentumVoltageOneachElement(eachVoltage))
 
     
         function signToComplex(length,angle){
@@ -305,9 +334,22 @@
         function putchToSignFormula(signPutcher){
             
             let forAsinFunc=signPutcher['im']/(Math.sqrt(signPutcher['re']**2+signPutcher['im']**2))
+            
+            let angleF=0;
+            if(signPutcher['im']<0){
+                angleF=Math.asin(forAsinFunc)*57.29
+            }else{ 
+                angleF=180-Math.asin(forAsinFunc)*57.29
+
+            }
+
+            
+            
+            
+
 
             return {
-                angle:Math.asin(forAsinFunc)*57.29,
+                angle:angleF,
                 length:Math.sqrt(signPutcher['re']**2+signPutcher['im']**2)
             }
         }
