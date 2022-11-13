@@ -163,7 +163,7 @@
 
                 if(fullResistenceOfBranch[i].isStraight){
                     sumOfStraight=sumOfStraight.add(fullResistenceOfBranch[i].fullResistenceOfBranch)
-                    console.log(`последовательное=${sumOfStraight}`)
+                    console.log(`последовательное=${sumOfStraight} + angle=${putchToSignFormula(sumOfStraight).angle} langth=${putchToSignFormula(sumOfStraight).length}`  )
                  }else{
                     arrayOfParralel.push(fullResistenceOfBranch[i].fullResistenceOfBranch)
                  }
@@ -176,10 +176,10 @@
             }else{
 
             }
-            console.log(`паралельное=${sumOfParralel}`)
+            console.log(`паралельное=${sumOfParralel} angle=${putchToSignFormula(sumOfParralel).angle} langth=${putchToSignFormula(sumOfParralel).length}`)
             
 
-            console.log(`общее=${sumOfStraight.add(sumOfParralel)}`)
+            console.log(`общее=${sumOfStraight.add(sumOfParralel)}  angle=${putchToSignFormula(sumOfStraight.add(sumOfParralel)).angle} langth=${putchToSignFormula(sumOfStraight.add(sumOfParralel)).length}`)
             
             return sumOfStraight.add(sumOfParralel)
 
@@ -195,7 +195,7 @@
             let bSide=complexVoltageValue*Math.cos(angle/57.29)
             let aSide=complexVoltageValue*Math.sin(angle/57.29)
 
-            console.log(`полное напряжение  цепи${Complex(bSide,aSide)}`)
+            console.log(`полное напряжение  цепи${Complex(bSide,aSide)} angle=${putchToSignFormula(Complex(bSide,aSide)).angle} langth=${putchToSignFormula(Complex(bSide,aSide)).length}`)
             return Complex(bSide,aSide)
 
 
@@ -206,7 +206,7 @@
         function currentInAllBranches(fullVolatgeInchain,fullResictance){
             
 
-            console.log(`полный ток  цепи ${fullVolatgeInchain.div(fullResictance)}`)
+            console.log(`полный ток  цепи ${fullVolatgeInchain.div(fullResictance)}   angle=${putchToSignFormula(fullVolatgeInchain.div(fullResictance)).angle} langth=${putchToSignFormula(fullVolatgeInchain.div(fullResictance)).length}`)
 
             return fullVolatgeInchain.div(fullResictance)
 
@@ -223,7 +223,7 @@
                 
                 if(putchedBranchedsResictence[i].isStraight && switchFlag==0 ){
                     voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
-                    console.log(`напряжение ${i+1}  ${voltageOnEachBranch[i]} `)
+                    console.log(`напряжение ${i+1}  ${voltageOnEachBranch[i]}  angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length}`)
                 }else if((putchedBranchedsResictence[i].isStraight && switchFlag==1) )
                 {
                     console.log(2)
@@ -233,7 +233,7 @@
                     
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
 
-                    console.log(`напряжение ${i+1} и  ${i+2}  ${voltageOnEachBranch[i]} `)
+                    console.log(`напряжение ${i+1} и  ${i+2}  ${voltageOnEachBranch[i]} angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length} `)
 
                     //double push handels voltage on two branches with same index branch-voltage
 
@@ -260,7 +260,6 @@
                 
                 
             }
-            console.log(voltageOnEachBranch)
             return voltageOnEachBranch
 
         }
@@ -270,11 +269,11 @@
         function currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence){
             //просчитываем так на всех ветвях кроме первого
                 let arrayOfCurrents=[fullCurrentInChain]
-                console.log(`ток по всей цепи ${arrayOfCurrents[0]}`)
+                console.log(`ток по всей цепи ${arrayOfCurrents[0]} angle=${putchToSignFormula(arrayOfCurrents[0]).angle} langth=${putchToSignFormula(arrayOfCurrents[0]).length} `)
                 for (let i = 1; i < voltageOnEachBranch.length; i++) {
                     
                     arrayOfCurrents.push(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
-                    console.log(`ток номер ${i+1} ${arrayOfCurrents[i]}`)
+                    console.log(`ток номер ${i+1} ${arrayOfCurrents[i]} angle=${putchToSignFormula(arrayOfCurrents[i]).angle} langth=${putchToSignFormula(arrayOfCurrents[i]).length} `)
                 }
                 
                 return arrayOfCurrents;
@@ -415,7 +414,7 @@
             let angle=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).angle/57.29
             let division=1/frequency
 
-            console.log(squeared+'/'+angle*57)
+            
             
             let CurrentValuseOnGraph=[]
             for (let i = 0; i <= division; i=i+division/10) {
@@ -428,6 +427,7 @@
 
                 
             }         
+            console.log('значение графика напряжений')
             return CurrentValuseOnGraph   
 
         }
@@ -438,7 +438,7 @@
             let angle=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).angle/57.29
             let division=1/frequency
 
-            console.log(squeared+'/'+angle*57)
+            
             
             let CurrentValuseOnGraph=[]
             for (let i = 0; i <= division; i=i+division/10) {
@@ -450,7 +450,8 @@
                 )
 
                 
-            }         
+            }
+            console.log('значение графика токов')
             return CurrentValuseOnGraph   
 
         }
