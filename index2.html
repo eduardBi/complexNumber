@@ -41,28 +41,27 @@
         
         let dataInput={
             firstBranch:{
-                coil:25,
-                resistance:15,
+                coil:50,
+                resistance:8,
                 isStraight:true,
-                condens:125,
+                
             },
             secondBranch:{
+                condens:200,
                 resistance:12,
-                coil:80,
+                
                 isStraight:false,
             },
             thirdbranch:{
-                resistance:8,
+                resistance:15,
                 isStraight:false ,
-                
-                
-                
+                coil:70,
             }
             
         }
         let frequency=50
-        let psy=180/4
-        let startVoltage=50*Math.sqrt(2)
+        let psy=180/6
+        let startVoltage=160*Math.sqrt(2)
 
             function reactiveResist (dataInput){
                 let reactiveResictance=[]
@@ -114,6 +113,9 @@
                 }
             
         }
+
+
+        console.log(reactiveResictance)
         
             return reactiveResictance
             
@@ -161,7 +163,7 @@
 
                 if(fullResistenceOfBranch[i].isStraight){
                     sumOfStraight=sumOfStraight.add(fullResistenceOfBranch[i].fullResistenceOfBranch)
-                    console.log(sumOfStraight)
+                    console.log(`последовательное=${sumOfStraight}`)
                  }else{
                     arrayOfParralel.push(fullResistenceOfBranch[i].fullResistenceOfBranch)
                  }
@@ -174,6 +176,10 @@
             }else{
 
             }
+            console.log(`паралельное=${sumOfParralel}`)
+            
+
+            console.log(`общее=${sumOfStraight.add(sumOfParralel)}`)
             
             return sumOfStraight.add(sumOfParralel)
 
@@ -189,7 +195,7 @@
             let bSide=complexVoltageValue*Math.cos(angle/57.29)
             let aSide=complexVoltageValue*Math.sin(angle/57.29)
 
-            console.log(Complex(bSide,aSide))
+            console.log(`полное напряжение  цепи${Complex(bSide,aSide)}`)
             return Complex(bSide,aSide)
 
 
@@ -198,8 +204,9 @@
 
 
         function currentInAllBranches(fullVolatgeInchain,fullResictance){
-            console.log(fullVolatgeInchain)
-            console.log(fullResictance)
+            
+
+            console.log(`полный ток  цепи ${fullVolatgeInchain.div(fullResictance)}`)
 
             return fullVolatgeInchain.div(fullResictance)
 
@@ -211,20 +218,23 @@
             let voltageOnEachBranch=[];
             let parralelResistance=Complex(0,0);
             let arrayOfParralel=[];
-            console.log(fullCurrentInChain)
+            
             for (let i = 0; i < putchedBranchedsResictence.length; i++) {
                 
                 if(putchedBranchedsResictence[i].isStraight && switchFlag==0 ){
                     voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
-                    console.log(1)
+                    console.log(`напряжение ${i+1}  ${voltageOnEachBranch[i]} `)
                 }else if((putchedBranchedsResictence[i].isStraight && switchFlag==1) )
                 {
                     console.log(2)
                     parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
                     
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    console.log(fullCurrentInChain)
+                    
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+
+                    console.log(`напряжение ${i+1} и  ${i+2}  ${voltageOnEachBranch[i]} `)
+
                     //double push handels voltage on two branches with same index branch-voltage
 
                     voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
@@ -232,16 +242,17 @@
 
                     switchFlag=0
                 }else if(!putchedBranchedsResictence[i].isStraight &&putchedBranchedsResictence.length==i+1 ){
-                    console.log(3)
+                    
                     switchFlag=1
                     arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
 
                     parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
+                    console.log(`напряжение ${i} и  ${i+1}  ${voltageOnEachBranch[i]} `)
                     //double push handels voltage on two branches with same index branch-voltage
                 }else{
-                    console.log(4)
+                    
                     switchFlag=1
                     arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
                 }
@@ -254,14 +265,16 @@
 
         }
         let voltageOnEachBranch= VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence);
-        console.log(voltageOnEachBranch)
+        
 
         function currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence){
             //просчитываем так на всех ветвях кроме первого
                 let arrayOfCurrents=[fullCurrentInChain]
+                console.log(`ток по всей цепи ${arrayOfCurrents[0]}`)
                 for (let i = 1; i < voltageOnEachBranch.length; i++) {
                     
                     arrayOfCurrents.push(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
+                    console.log(`ток номер ${i+1} ${arrayOfCurrents[i]}`)
                 }
                 
                 return arrayOfCurrents;
@@ -279,6 +292,7 @@
                 if(dataInput[arrayOfKeys[i]].coil){
 
                     resistanceOnEachelement.push({name:`Coil${i+1}`,voltageonElemen:AllCurrents[i].mul(Complex(0,2*Math.PI*frequency*dataInput[arrayOfKeys[i]].coil*10**-3))})
+                    
 
                 }
                 if(dataInput[arrayOfKeys[i]].condens){
@@ -291,10 +305,12 @@
                     resistanceOnEachelement.push({name:`resist${i+1}`,voltageonElemen:AllCurrents[i].mul(Complex(dataInput[arrayOfKeys[i]].resistance,0))})
 
                 }
+                
 
             }
-
+            console.log(`напряжения на элементах снизу`)
             console.log(resistanceOnEachelement)
+            
             return resistanceOnEachelement
 
         }
@@ -306,11 +322,11 @@
 
             console.log(momentumCurrents)
             for (let i = 0; i < AllCurrents.length; i++) {
-                console.log(AllCurrents[i])
                 let angleAndLength=putchToSignFormula(AllCurrents[i])
                 momentumCurrents.push((angleAndLength.length*Math.sqrt(2)).toFixed(2)+'*sin(' +(2*Math.PI*frequency).toFixed(2)+'t+'+angleAndLength.angle.toFixed(2)+')')
 
             }
+            console.log('моментальные токи снизу')
             console.log(momentumCurrents)
             return momentumCurrents
 
@@ -335,7 +351,7 @@
                 
 
             }
-            
+            console.log('моментальные напряжения ветвей');
             console.log(momentumVoltage);
 
         }
@@ -362,7 +378,7 @@
 
                     return  MomentumVoltageOfEachElement;
         }
-
+        console.log('моментальные напряжения');
         console.log(momentumVoltageOneachElement(eachVoltage))
 
 
