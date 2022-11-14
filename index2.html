@@ -41,27 +41,29 @@
         
         let dataInput={
             firstBranch:{
-                coil:50,
-                resistance:8,
+                condens:300,
+                resistance:18,
                 isStraight:true,
+                coil:100,
                 
             },
+
             secondBranch:{
-                condens:200,
-                resistance:12,
-                
+                resistance:6,
                 isStraight:false,
+                coil:25,
             },
             thirdbranch:{
-                resistance:15,
+                condens:400,
+                resistance:10,
                 isStraight:false ,
-                coil:70,
-            }
+                
+            },
             
         }
-        let frequency=50
-        let psy=180/6
-        let startVoltage=160*Math.sqrt(2)
+        let frequency=150
+        let psy=180/4
+        let startVoltage=150*Math.sqrt(2)
 
             function reactiveResist (dataInput){
                 let reactiveResictance=[]
@@ -222,19 +224,19 @@
             for (let i = 0; i < putchedBranchedsResictence.length; i++) {
                 
                 if(putchedBranchedsResictence[i].isStraight && switchFlag==0 ){
+                    console.log('startof chain')
                     voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
                     console.log(`напряжение ${i+1}  ${voltageOnEachBranch[i]}  angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length}`)
                 }else if((putchedBranchedsResictence[i].isStraight && switchFlag==1) )
                 {
-                    console.log(2)
+                    
                     parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
                     
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    
+                    console.log(2)
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-
-                    console.log(`напряжение ${i+1} и  ${i+2}  ${voltageOnEachBranch[i]} angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length} `)
-
+                    console.log(`напряжение ${i} и  ${i+1}  ${voltageOnEachBranch[i]} angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length} `)
+                    
                     //double push handels voltage on two branches with same index branch-voltage
 
                     voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
@@ -249,13 +251,14 @@
                     parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
                     voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    console.log(`напряжение ${i} и  ${i+1}  ${voltageOnEachBranch[i]} `)
+                    console.log(`напряжение ${i} и  ${i+1}  ${voltageOnEachBranch[i]} angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length}`)
                     //double push handels voltage on two branches with same index branch-voltage
                 }else{
                     
                     switchFlag=1
                     arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
                 }
+                console.log(voltageOnEachBranch)
                 // код повторяется нужно сделать функцию которая возвращаеттолько сопротивление для каждого соединения ветвей paralleresistance=[], может считать только сопративление двух ветвей                 
                 
                 
@@ -435,13 +438,13 @@
         function graphTable(fullCurrentInChain){
 
             let squeared=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).length
-            let angle=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).angle/57.29
+            let angle=putchToSignFormula(fullCurrentInChain).angle/57.29
             let division=1/frequency
-
+            console.log(putchToSignFormula(fullCurrentInChain).length*Math.sqrt(2))
             
             
             let CurrentValuseOnGraph=[]
-            for (let i = 0; i <= division; i=i+division/10) {
+            for (let i = 0; i <= division+division*1/10; i=i+division/10) {
                 CurrentValuseOnGraph.push(
                     {   
                         timeValue:i,
@@ -459,13 +462,14 @@
         function VoltagegraphTable(fullCurrentInChain,angle){
 
         let squeared=fullCurrentInChain
+        
         angle=angle/57.29
         let division=1/frequency
 
         console.log(squeared+'/'+angle*57)
 
         let CurrentValuseOnGraph=[]
-        for (let i = 0; i <= division; i=i+division/10) {
+        for (let i = 0; i <= division+division*1/10; i=i+division/10) {
             CurrentValuseOnGraph.push(
                 {   
                     timeValue:i,
@@ -482,6 +486,17 @@
         console.log(currentgraphTable)
         let voltageTable=VoltagegraphTable(startVoltage,psy);
         console.log(voltageTable)
+
+        console.log(getPower(currentgraphTable, voltageTable))
+        function getPower(toks, voltage){
+            endArray=[];
+            for (let i = 0; i < toks.length; i++) {
+                
+                endArray.push(toks[i].value*voltage[i].value);
+
+            }
+            return endArray
+        }
 
     
         function signToComplex(length,angle){
