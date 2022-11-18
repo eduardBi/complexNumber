@@ -41,29 +41,29 @@
         
         let dataInput={
             firstBranch:{
-                condens:300,
-                resistance:18,
+                condens:150,
+                resistance:12,
                 isStraight:true,
-                coil:100,
+                coil:25,
                 
             },
 
             secondBranch:{
-                resistance:6,
+                resistance:9,
                 isStraight:false,
-                coil:25,
+                coil:60,
             },
             thirdbranch:{
-                condens:400,
-                resistance:10,
+                condens:100,
+                resistance:18,
                 isStraight:false ,
                 
             },
             
         }
-        let frequency=150
-        let psy=180/4
-        let startVoltage=150*Math.sqrt(2)
+        let frequency=50
+        let psy=180/3
+        let startVoltage=100*Math.sqrt(2)
 
             function reactiveResist (dataInput){
                 let reactiveResictance=[]
@@ -408,40 +408,12 @@
 
 
         }
-
-        console.log(CheckIsRight(AllCurrents));
-
         function graphTable(fullCurrentInChain){
 
-            let squeared=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).length
-            let angle=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).angle/57.29
-            let division=1/frequency
-
-            
-            
-            let CurrentValuseOnGraph=[]
-            for (let i = 0; i <= division; i=i+division/10) {
-                CurrentValuseOnGraph.push(
-                    {   
-                        timeValue:i,
-                        value:squeared*Math.sin(angle+314*i)
-                    }
-                )
-
-                
-            }         
-            console.log('значение графика напряжений')
-            return CurrentValuseOnGraph   
-
-        }
-
-        function graphTable(fullCurrentInChain){
-
+            console.log(fullCurrentInChain)
             let squeared=Math.sqrt(2)*putchToSignFormula(fullCurrentInChain).length
             let angle=putchToSignFormula(fullCurrentInChain).angle/57.29
             let division=1/frequency
-            console.log(putchToSignFormula(fullCurrentInChain).length*Math.sqrt(2))
-            
             
             let CurrentValuseOnGraph=[]
             for (let i = 0; i <= division+division*1/10; i=i+division/10) {
@@ -459,41 +431,17 @@
 
         }
 
-        function VoltagegraphTable(fullCurrentInChain,angle){
-
-        let squeared=fullCurrentInChain
-        
-        angle=angle/57.29
-        let division=1/frequency
-
-        console.log(squeared+'/'+angle*57)
-
-        let CurrentValuseOnGraph=[]
-        for (let i = 0; i <= division+division*1/10; i=i+division/10) {
-            CurrentValuseOnGraph.push(
-                {   
-                    timeValue:i,
-                    value:squeared*Math.sin(angle+314*i)
-                }
-            )
-
-            
-        }         
-        return CurrentValuseOnGraph   
-
-        }
         let currentgraphTable=graphTable(fullCurrentInChain);
-        console.log(currentgraphTable)
-        let voltageTable=VoltagegraphTable(startVoltage,psy);
-        console.log(voltageTable)
-
+        let voltageTable=graphTable(fullVolatgeInchain);
         console.log(getPower(currentgraphTable, voltageTable))
+
+
         function getPower(toks, voltage){
             endArray=[];
             for (let i = 0; i < toks.length; i++) {
-                
-                endArray.push(toks[i].value*voltage[i].value);
 
+                endArray.push(toks[i].value*voltage[i].value);
+                
             }
             return endArray
         }
@@ -506,24 +454,18 @@
             console.log(bSide)
             console.log(aSide)
         }
-        //signToComplex(1.86,81.8)
-        //putchToSignFormula(Complex(6.76,1.56))
+        
 
         function putchToSignFormula(signPutcher){
             
             let forAsinFunc=signPutcher['im']/(Math.sqrt(signPutcher['re']**2+signPutcher['im']**2))
-            
-            
-
             let angleF=0;
+
             if(signPutcher['re']>0){
                 angleF=Math.asin(forAsinFunc)*57.29
             }else{ 
                 angleF=180-Math.asin(forAsinFunc)*57.29
-
             }
-
-            
             return {
                 angle:angleF,
                 length:Math.sqrt(signPutcher['re']**2+signPutcher['im']**2)
