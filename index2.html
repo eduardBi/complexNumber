@@ -45,6 +45,11 @@
                   value:150,
                   startIndex:3,
                   endIndex:3
+            },fourth:{
+                  type:'condens',
+                  value:150,
+                  startIndex:3,
+                  endIndex:3
             },
             secondElement:{
                 type:'coil',
@@ -53,37 +58,49 @@
                 endIndex:2
             }
             ,
-            thirdElement:{
+            fourthElement:{
                 type:'resist',
                 value:70,
                 startIndex:4,
-                endIndex:4
-            }
-            ,
-            fourthElement:{
-                type:'coil',
-                value:70,
-                startIndex:2,
-                endIndex:5
+                endIndex:7
             },
-            fiveth:{
-                type:'condens',
+            fifth:{
+                type:'resist',
                 value:70,
-                startIndex:2,
-                endIndex:5
+                startIndex:4,
+                endIndex:7
             },
             sixth:{
-                type:'condens',
+                type:'resist',
                 value:70,
-                startIndex:3,
-                endIndex:5
+                startIndex:4,
+                endIndex:7
+            },
+            eight:{
+                type:'resist',
+                value:70,
+                startIndex:7,
+                endIndex:9
+            },nine:{
+                type:'resist',
+                value:70,
+                startIndex:7,
+                endIndex:9
+            },zix:{
+                type:'resist',
+                value:70,
+                startIndex:7,
+                endIndex:10
             }
-            //can add central index to index element in parralel chain
+            
 
         }
         let frequency=50
         let psy=180/3
         let startVoltage=100*Math.sqrt(2)
+
+
+     
 
             function reactiveResist (dataInput){
                 let reactiveResictance=[]
@@ -119,43 +136,59 @@
 let outputOfReactiveResiters= reactiveResist(dataInput)
         
         function formBranches(dataWithReactiveResictence){
-                
-            
-            let formBranches=[];
+        //добавить сортировку от меньшего к большему        
+            let switchNumber=0;
+            let newBranches=[]
 
             for (let i = 0; i < dataWithReactiveResictence.length; i++) {
        
-                if(dataWithReactiveResictence[i].startIndex!=dataWithReactiveResictence[i].endIndex && formBranches.length!=0){
-                //если парралельное соединение  
-                    console.log('zoro')
-                    
-                    for (let j = 0; j < formBranches.length; j++) {
-                        //если уже есть то не добавлять
-                        console.log(formBranches[j])    
-                        console.log('уже в массиве')
-                        console.log(dataWithReactiveResictence[i])    
-                        console.log('пришло в функцию')
-                        if(formBranches[j].startIndex==dataWithReactiveResictence[i].startIndex && formBranches[j].endIndex==dataWithReactiveResictence[i].endIndex){
-                            console.log(true)
-                        }else{
-                            formBranches.push(dataWithReactiveResictence[i])        
-                        }
+                if(dataWithReactiveResictence[i].startIndex!=dataWithReactiveResictence[i].endIndex){
+                //если парралельное соединение 
                         
-                    }
+                let beginingNumber=newBranches[switchNumber].data.filter(e=>e.startIndex==dataWithReactiveResictence[i].startIndex)
+                let  endingNumber=newBranches[switchNumber].data.filter(e=>e.endIndex==dataWithReactiveResictence[i].endIndex)        
+                   //     
+                
+                if(beginingNumber.startIndex===endingNumber.startIndex && beginingNumber.endIndex===endingNumber.endIndex &&beginingNumber.length!=0 && endingNumber.length!=0){
+                    newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
+                            console.log(false)
+                }else {
+                            
+
+                            console.log(true)
+                            switchNumber+=1;
+                            newBranches[switchNumber]={number:switchNumber,data:[]}
+                            newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
+                
+                }
                     
 
-                }else if(formBranches.length==0 && dataWithReactiveResictence[i].startIndex!=dataWithReactiveResictence[i].endIndex){
-                    // первый парралельный  элемент сразу попадает в массив
-                    console.log('first element')
+                }else if(newBranches==0 && dataWithReactiveResictence[i].startIndex==dataWithReactiveResictence[i].endIndex){
+                // последовательный элемент всегда заносится  
+                console.log('4')
+                newBranches[switchNumber]={number:switchNumber,data:[]}
+                newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
+                }else{
+                    // последовательный элемент всегда заносится до первого парралельного соединения 
+                    console.log('push')
+                    console.log(newBranches[switchNumber])
+                    newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
+                    console.log(newBranches[switchNumber].data)
                     
-                    formBranches.push(dataWithReactiveResictence[i])
+
                 }
                 
             }
-            console.log(formBranches)
+            
+            console.log(newBranches)
+            return newBranches
         }
         let putchedBranchedsResictence=formBranches(outputOfReactiveResiters);
-        //повторяется с низу 
+
+
+
+
+
 
         function resictenceOfChain(fullResistenceOfBranch){
             
