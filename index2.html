@@ -139,6 +139,7 @@ let outputOfReactiveResiters= reactiveResist(dataInput)
         //добавить сортировку от меньшего к большему        
             let switchNumber=0;
             let newBranches=[]
+            newBranches[switchNumber]={number:switchNumber,data:[]}
 
             for (let i = 0; i < dataWithReactiveResictence.length; i++) {
        
@@ -146,36 +147,24 @@ let outputOfReactiveResiters= reactiveResist(dataInput)
                 //если парралельное соединение 
                         
                 let beginingNumber=newBranches[switchNumber].data.filter(e=>e.startIndex==dataWithReactiveResictence[i].startIndex)
-                let  endingNumber=newBranches[switchNumber].data.filter(e=>e.endIndex==dataWithReactiveResictence[i].endIndex)        
-                   //     
-                
-                if(beginingNumber.startIndex===endingNumber.startIndex && beginingNumber.endIndex===endingNumber.endIndex &&beginingNumber.length!=0 && endingNumber.length!=0){
-                    newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
-                            console.log(false)
-                }else {
-                            
 
-                            console.log(true)
-                            switchNumber+=1;
-                            newBranches[switchNumber]={number:switchNumber,data:[]}
-                            newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
+                let  endingNumber=newBranches[switchNumber].data.filter(e=>e.endIndex==dataWithReactiveResictence[i].endIndex)        
+
+                   //проверяю с одной ли парралельной ветви        
+                if(beginingNumber.startIndex===endingNumber.startIndex && beginingNumber.endIndex===endingNumber.endIndex && beginingNumber.length!=0 && endingNumber.length!=0){
+
+                    newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
+                    
+                }else {
+                       switchNumber+=1;
+                        newBranches[switchNumber]={number:switchNumber,data:[]}
+                        newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
                 
                 }
-                    
-
-                }else if(newBranches==0 && dataWithReactiveResictence[i].startIndex==dataWithReactiveResictence[i].endIndex){
-                // последовательный элемент всегда заносится  
-                console.log('4')
-                newBranches[switchNumber]={number:switchNumber,data:[]}
-                newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
                 }else{
                     // последовательный элемент всегда заносится до первого парралельного соединения 
-                    console.log('push')
-                    console.log(newBranches[switchNumber])
                     newBranches[switchNumber].data.push(dataWithReactiveResictence[i])
-                    console.log(newBranches[switchNumber].data)
                     
-
                 }
                 
             }
@@ -185,105 +174,62 @@ let outputOfReactiveResiters= reactiveResist(dataInput)
         }
         let putchedBranchedsResictence=formBranches(outputOfReactiveResiters);
 
-
-
-
-
-
+        
         function resictenceOfChain(fullResistenceOfBranch){
-            
+            console.log(fullResistenceOfBranch)
             let arrayOfParralel=[];
-            
+            let fullChainResistance=Complex(0,0)
 
-            
+            for (let i = 0; i < fullResistenceOfBranch.length; i++) {
+                let complexResistanceOfBranch=Complex(0,0)
+                for (let j = 0; j < fullResistenceOfBranch[i].data.length; j++) {
+                        
+                    complexResistanceOfBranch=complexResistanceOfBranch.add(fullResistenceOfBranch[i].data[j].reactiveResistence)
+                    
+                }
 
-            
-            
+                fullResistenceOfBranch[i].branchresistance=complexResistanceOfBranch
+                //branchResistance
+                fullChainResistance=fullChainResistance.add(complexResistanceOfBranch)
+                //full resistance
+            }            
 
-
-            return sumOfStraight.add(sumOfParralel)
-
+            return {fullChainResistance,branchData:fullResistenceOfBranch}
 
         }
         let fullResictance=resictenceOfChain(putchedBranchedsResictence)
-        
+         
 
-        function fullVoltage(startVoltage,angle){
+        function fullVoltage(startVoltage,angle,object){
             let complexVoltageString=startVoltage/Math.sqrt(2)+'e^'+angle
             let complexVoltageValue=startVoltage/Math.sqrt(2)
 
             let bSide=complexVoltageValue*Math.cos(angle/57.29)
             let aSide=complexVoltageValue*Math.sin(angle/57.29)
 
-            console.log(`полное напряжение  цепи${Complex(bSide,aSide)} angle=${putchToSignFormula(Complex(bSide,aSide)).angle} langth=${putchToSignFormula(Complex(bSide,aSide)).length}`)
-            return Complex(bSide,aSide)
-
+            return {...fullResictance,fullVoltage:Complex(bSide,aSide)}
 
         }
-        let fullVolatgeInchain=fullVoltage(startVoltage,psy)
 
 
-        function currentInAllBranches(fullVolatgeInchain,fullResictance){
-            
-
-            console.log(`полный ток  цепи ${fullVolatgeInchain.div(fullResictance)}   angle=${putchToSignFormula(fullVolatgeInchain.div(fullResictance)).angle} langth=${putchToSignFormula(fullVolatgeInchain.div(fullResictance)).length}`)
-
-            return fullVolatgeInchain.div(fullResictance)
-
-        }
-        let fullCurrentInChain=currentInAllBranches(fullVolatgeInchain,fullResictance)
+        let fullVolatgeInchain=fullVoltage(startVoltage,psy,fullResictance)
         
-        function VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence){
-            let switchFlag=0;
-            let voltageOnEachBranch=[];
-            let parralelResistance=Complex(0,0);
-            let arrayOfParralel=[];
+
+        function currentInAllBranches(object){
+
+            return {...object,CurrentInAllBranches:object.fullVoltage.div(object.fullChainResistance)}
+
+        }
+        let fullCurrentInChain=currentInAllBranches(fullVolatgeInchain)
+        console.log(fullCurrentInChain)
+        
+        function VoltageInBranches(object){   
             
-            for (let i = 0; i < putchedBranchedsResictence.length; i++) {
-                
-                if(putchedBranchedsResictence[i].isStraight && switchFlag==0 ){
-                    console.log('startof chain')
-                    voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
-                    console.log(`напряжение ${i+1}  ${voltageOnEachBranch[i]}  angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length}`)
-                }else if((putchedBranchedsResictence[i].isStraight && switchFlag==1) )
-                {
-                    
-                    parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
-                    
-                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    console.log(2)
-                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    console.log(`напряжение ${i} и  ${i+1}  ${voltageOnEachBranch[i]} angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length} `)
-                    
-                    //double push handels voltage on two branches with same index branch-voltage
-
-                    voltageOnEachBranch.push(putchedBranchedsResictence[i].fullResistenceOfBranch.mul(fullCurrentInChain))
-                    // handels if last one isn't parralel
-
-                    switchFlag=0
-                }else if(!putchedBranchedsResictence[i].isStraight &&putchedBranchedsResictence.length==i+1 ){
-                    
-                    switchFlag=1
-                    arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
-
-                    parralelResistance=(Complex(arrayOfParralel[0]).mul(arrayOfParralel[1])).div(Complex(arrayOfParralel[0]).add(arrayOfParralel[1]))
-                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    voltageOnEachBranch.push(parralelResistance.mul(fullCurrentInChain))
-                    console.log(`напряжение ${i} и  ${i+1}  ${voltageOnEachBranch[i]} angle=${putchToSignFormula(voltageOnEachBranch[i]).angle} langth=${putchToSignFormula(voltageOnEachBranch[i]).length}`)
-                    //double push handels voltage on two branches with same index branch-voltage
-                }else{
-                    
-                    switchFlag=1
-                    arrayOfParralel.push(putchedBranchedsResictence[i].fullResistenceOfBranch)
-                }
-                console.log(voltageOnEachBranch)
-                // код повторяется нужно сделать функцию которая возвращаеттолько сопротивление для каждого соединения ветвей paralleresistance=[], может считать только сопративление двух ветвей                 
-                
-                
-            }
             return voltageOnEachBranch
 
         }
+
+        
         let voltageOnEachBranch= VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence);
         
 
