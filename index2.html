@@ -221,32 +221,41 @@ let outputOfReactiveResiters= reactiveResist(dataInput)
 
         }
         let fullCurrentInChain=currentInAllBranches(fullVolatgeInchain)
-        console.log(fullCurrentInChain)
+
         
+
         function VoltageInBranches(object){   
+
             
-            return voltageOnEachBranch
+                for (let i = 0; i < object.branchData.length; i++) {
+                    
+                    object.branchData[i].voltageOnBranch=object.branchData[i].branchresistance.mul(object.CurrentInAllBranches)
+                    
+                }
+
+            return object
 
         }
 
         
-        let voltageOnEachBranch= VoltageInBranches(fullCurrentInChain,putchedBranchedsResictence);
+        let voltageOnEachBranch= VoltageInBranches(fullCurrentInChain);
+        
         
 
-        function currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence){
+        function currentOnEachBranshes(object){
+            console.log(object)
             //просчитываем так на всех ветвях кроме первого
-                let arrayOfCurrents=[fullCurrentInChain]
-                console.log(`ток по всей цепи ${arrayOfCurrents[0]} angle=${putchToSignFormula(arrayOfCurrents[0]).angle} langth=${putchToSignFormula(arrayOfCurrents[0]).length} `)
-                for (let i = 1; i < voltageOnEachBranch.length; i++) {
-                    
-                    arrayOfCurrents.push(voltageOnEachBranch[i].div(putchedBranchedsResictence[i].fullResistenceOfBranch))
-                    console.log(`ток номер ${i+1} ${arrayOfCurrents[i]} angle=${putchToSignFormula(arrayOfCurrents[i]).angle} langth=${putchToSignFormula(arrayOfCurrents[i]).length} `)
+                for (let i = 0; i < object.branchData.length; i++) {
+                    object.branchData[i].currentInChain=object.branchData[i].voltageOnBranch.div(object.branchData[i].branchresistance)
+                
                 }
+
+                console.log(object)
                 
                 return arrayOfCurrents;
 
         }
-        let AllCurrents=currentOnEachBranshes(fullCurrentInChain,voltageOnEachBranch,putchedBranchedsResictence);
+        let AllCurrents=currentOnEachBranshes(voltageOnEachBranch);
         
         function VoltageOnEachElemet (AllCurrents,dataInput){
 
