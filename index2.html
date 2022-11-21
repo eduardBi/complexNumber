@@ -119,6 +119,11 @@
             endKnot:2
         },
         {
+            startKnot:1,
+            endKnot:2
+        }
+        ,
+        {
             startKnot:2,
             endKnot:3
         },
@@ -130,10 +135,15 @@
         
         ]
 
-        function returnBranches(knots){
-            
+        function returnBranches(knots,elements){
+            // need to be splited into different functions
             let reapeatedKnots=0;
+            let brancharray=[];
+            let pushinNumber=0;
+            
 
+
+            
             for (let i = 0; i < knots.length; i++) {
 
                 
@@ -141,23 +151,47 @@
 
                     
 
-                    if(knots[reapeatedKnots].id==knots[j+reapeatedKnots].id){
-                        console.log(true)
-                    }else{
-                        console.log(false)
-                    }
+                    if(knots[reapeatedKnots].id!=knots[j+reapeatedKnots].id){
+                        //knots cant be equal bacause they dont create a branch
+                       console.log(knots[reapeatedKnots])
+                       console.log(knots[j+reapeatedKnots])
+                            for (let f = 0; f < elements.length; f++) {
+                                // need to be sorted and can delete element after pushing to array
+                                console.log(elements[f])
+                                console.log('есть ли уже  ветвь с этим элементом')
+                                let alredyInBrenchArray= brancharray.filter(e=>{ 
+                                return e.branchId==elements[f].startKnot+''+elements[f].endKnot
+                                    
+                            })
+                                
 
-                    
-                    
+                                if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length!=0){
+                                    //возможно двойное добавление 
+                                    //form a branch
+                                    brancharray[pushinNumber-1].data.push(elements[f])
+
+                                }else  if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length==0){
+                                    console.log('have no match')
+                                    brancharray.push({branchId:elements[f].startKnot+''+elements[f].endKnot,data:[]})
+                                    brancharray[pushinNumber].data.push(elements[f])
+                                    pushinNumber++;
+                                    
+                                }
+                                
+                            }
+
+                    }
                 }   
-                reapeatedKnots++             
+                reapeatedKnots++ 
+                //last knot will never be executed because it isntt connected to anything            
                 
 
             }
             
+            console.log(brancharray)
                         
         }
-        returnBranches(knots);
+        returnBranches(knots,branches);
 
         /*if(knots[i].id==knots[reapeatedKnots].id){
                         console.log(true);
