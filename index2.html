@@ -130,7 +130,13 @@
         {
             startKnot:1,
             endKnot:3
-        }                
+        },              {
+            startKnot:1,
+            endKnot:3
+        },{
+            startKnot:1,
+            endKnot:2
+        },                
         
         
         ]
@@ -166,12 +172,11 @@
                                 
 
                                 if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length!=0){
-                                    //возможно двойное добавление 
-                                    //form a branch
+                                    
                                     brancharray[pushinNumber-1].data.push(elements[f])
 
                                 }else  if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length==0){
-                                    console.log('have no match')
+                                    
                                     brancharray.push({branchId:elements[f].startKnot+''+elements[f].endKnot,data:[]})
                                     brancharray[pushinNumber].data.push(elements[f])
                                     pushinNumber++;
@@ -193,11 +198,7 @@
         }
         returnBranches(knots,branches);
 
-        /*if(knots[i].id==knots[reapeatedKnots].id){
-                        console.log(true);
-                    }else{
-                        console.log(false);
-                    }*/
+        
 
 
         let frequency=50
