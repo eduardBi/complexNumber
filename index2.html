@@ -106,6 +106,8 @@
             },
             {
                 id:3
+            },{
+                id:4
             }
         ]
 
@@ -136,7 +138,10 @@
         },{
             startKnot:1,
             endKnot:2
-        },                
+        },{
+            startKnot:1,
+            endKnot:4
+        }                
         
         
         ]
@@ -146,6 +151,8 @@
             let reapeatedKnots=0;
             let brancharray=[];
             let pushinNumber=0;
+            
+            
             
 
 
@@ -172,10 +179,12 @@
                                 
 
                                 if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length!=0){
+                                    //уже есть ветвь с этим элементом 
                                     
                                     brancharray[pushinNumber-1].data.push(elements[f])
 
                                 }else  if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length==0){
+                                    //ещё нет 
                                     
                                     brancharray.push({branchId:elements[f].startKnot+''+elements[f].endKnot,data:[]})
                                     brancharray[pushinNumber].data.push(elements[f])
@@ -193,13 +202,32 @@
 
             }
             
-            console.log(brancharray)
+            return brancharray
                         
         }
-        returnBranches(knots,branches);
+        let branchesArray=returnBranches(knots,branches);
+
+        function createLines(branchesArray){
+            let lines=[];
+            let arrayOfKeys=Object.keys(branchesArray);
+            let newLine=0
+            for (let i = 0; i < arrayOfKeys.length; i++) {
+                
+                for (let j = 0; j < arrayOfKeys.length; j++) {
+                    
+                    if(branchesArray[])
+
+                    
+                }
+
+                
+            }
+
+        }
+
+        createLines(branchesArray)
 
         
-
 
         let frequency=50
         let psy=180/3
