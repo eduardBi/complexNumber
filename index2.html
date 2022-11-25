@@ -108,13 +108,15 @@
                 id:3
             },{
                 id:4
+            },{
+                id:5
             }
         ]
 
         let branches=[
         {
-            startKnot:1,
-            endKnot:2
+            startKnot:2,
+            endKnot:4
         },
         {
             startKnot:1,
@@ -136,8 +138,8 @@
             startKnot:1,
             endKnot:3
         },{
-            startKnot:1,
-            endKnot:2
+            startKnot:3,
+            endKnot:4
         },{
             startKnot:1,
             endKnot:4
@@ -173,7 +175,7 @@
                                 console.log(elements[f])
                                 console.log('есть ли уже  ветвь с этим элементом')
                                 let alredyInBrenchArray= brancharray.filter(e=>{ 
-                                return e.branchId==elements[f].startKnot+''+elements[f].endKnot
+                                return e.branchStart==elements[f].startKnot && e.branchEnd==elements[f].endKnot
                                     
                             })
                                 
@@ -186,7 +188,7 @@
                                 }else  if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length==0){
                                     //ещё нет 
                                     
-                                    brancharray.push({branchId:elements[f].startKnot+''+elements[f].endKnot,data:[]})
+                                    brancharray.push({branchStart:elements[f].startKnot,branchEnd:elements[f].endKnot,data:[]})
                                     brancharray[pushinNumber].data.push(elements[f])
                                     pushinNumber++;
                                     
@@ -211,17 +213,18 @@
             let lines=[];
             let arrayOfKeys=Object.keys(branchesArray);
             let newLine=0
+            console.log(branchesArray)
             for (let i = 0; i < arrayOfKeys.length; i++) {
-                
-                for (let j = 0; j < arrayOfKeys.length; j++) {
-                    
-                    if(branchesArray[])
+                console.log(branchesArray[arrayOfKeys[i]])
+                let some=branchesArray.filter(e=>e.branchStart==branchesArray[arrayOfKeys[i]].branchEnd)
+                console.log(some)
 
                     
+                
                 }
 
                 
-            }
+            
 
         }
 
