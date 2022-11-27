@@ -197,37 +197,46 @@
         
 
         function createLines(branchesArray){
-            function StartParralel(object){
-                let startParalel=branchesArray.filter(e=>e.startKnot==object.startKnot)
-                console.log(startParalel)
-            }
-             
-            function findNext(object){
+                startAction(branchesArray)
+                function startAction(branchesArray){
+                    getType(branchesArray[0])
+                }
+
+                function getType(object){
+                    let isParralel=branchesArray.filter(e=>e.startKnot==object.startKnot)
+                    if(isParralel.length==1){
+                        console.log('straight')
+                        
+                    }else if(isParralel.length>1){
+                        console.log('paralrl')
+                        startParalel(isParralel)
+                    }
+                }
+
+                function findNext(object){
+
+                    let finded=branchesArray.filter(e=>e.startKnot==object.endKnot)
+                    let endSearch=branchesArray.filter(e=>e.endKnot==finded[0].endKnot)
+                    console.log(finded)
+                    console.log(endSearch)
+                    if(endSearch.length==1){
+                        //findNext()
+                        console.log('keep going');
+                        findNext(finded[0]);
+                    }else if(endSearch.length>1){
+                        console.log('stop')
+                    }
+
+                }
+            
+            function startParalel(object){
+                console.log(object)
                 
-                let nextBranches=branchesArray.filter(e=>e.startKnot==object.endKnot)
-                console.log(nextBranches)
-
-
-            }
-
-            function linkType(object){
-                let isStraight=branchesArray.filter(e=>e.startKnot==object.startKnot)
-                
-                if(isStraight.length==1){
-                    console.log('straight')
-                    console.log(isStraight)
-                }else if(isStraight.length>1){
-                    console.log('paraleel')
-                    console.log(isStraight)
+                for (let i = 0; i < object.length; i++) {
+                    findNext(object[i])
                 }
             }
-                    
-            for (let i = 0; i < branchesArray.length; i++) {
                 
-                linkType(branchesArray[i])
-                
-            }
-
         }
     
     
