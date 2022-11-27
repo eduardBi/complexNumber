@@ -110,40 +110,62 @@
                 id:4
             },{
                 id:5
+            },{
+                id:6
+            },{
+                id:7
+            },{
+                id:8
+            },{
+                id:9
             }
         ]
 
         let branches=[
         {
+            startKnot:1,
+            endKnot:2
+        },
+        {
             startKnot:2,
-            endKnot:4
+            endKnot:3
         },
         {
-            startKnot:1,
-            endKnot:2
-        },
-        {
-            startKnot:1,
-            endKnot:2
+            startKnot:3,
+            endKnot:5
         }
         ,
         {
-            startKnot:2,
-            endKnot:3
+            startKnot:1,
+            endKnot:4
         },
         {
+            startKnot:4,
+            endKnot:5
+        }, 
+                 
+        {
+            startKnot:5,
+            endKnot:7
+        },        
+        {
             startKnot:1,
-            endKnot:3
-        },              {
-            startKnot:1,
-            endKnot:3
+            endKnot:6
         },{
-            startKnot:3,
-            endKnot:4
+            startKnot:6,
+            endKnot:8
+        },           
+        {
+            startKnot:8,
+            endKnot:7
+        },
+        {
+            startKnot:8,
+            endKnot:7
         },{
-            startKnot:1,
-            endKnot:4
-        }                
+            startKnot:6,
+            endKnot:8
+        },
         
         
         ]
@@ -154,30 +176,34 @@
             let brancharray=[];
             let pushinNumber=0;
             
-            
-            
 
 
             
-            for (let i = 0; i < knots.length; i++) {
+            for (let i = 0; i <knots.length; i++) {
 
                 
-                for (let j = 0; j < knots.length-reapeatedKnots; j++) {
+                for (let j = 0; j < knots.length; j++) {
 
-                    
 
-                    if(knots[reapeatedKnots].id!=knots[j+reapeatedKnots].id){
+                    if(knots[i].id!=knots[j].id){
                         //knots cant be equal bacause they dont create a branch
-                       console.log(knots[reapeatedKnots])
-                       console.log(knots[j+reapeatedKnots])
+                            let some=elements.filter(e=>e.startKnot==knots[i].id && e.endKnot==knots[j].id)
+                            if(some.length!=0){
+                            brancharray.push(some)
+                            }
+                            console.log(brancharray)
+
+
+                            
+                            
+
+                            /*
                             for (let f = 0; f < elements.length; f++) {
                                 // need to be sorted and can delete element after pushing to array
-                                console.log(elements[f])
-                                console.log('есть ли уже  ветвь с этим элементом')
+                                
                                 let alredyInBrenchArray= brancharray.filter(e=>{ 
-                                return e.branchStart==elements[f].startKnot && e.branchEnd==elements[f].endKnot
-                                    
-                            })
+                                return e.branchStart==elements[f].startKnot && e.branchEnd==elements[f].endKnot})
+                                
                                 
 
                                 if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length!=0){
@@ -194,11 +220,13 @@
                                     
                                 }
                                 
-                            }
+                            }*/
 
                     }
                 }   
-                reapeatedKnots++ 
+                    
+                    
+                
                 //last knot will never be executed because it isntt connected to anything            
                 
 
@@ -208,25 +236,46 @@
                         
         }
         let branchesArray=returnBranches(knots,branches);
+        
 
         function createLines(branchesArray){
             let lines=[];
             let arrayOfKeys=Object.keys(branchesArray);
             let newLine=0
             console.log(branchesArray)
-            for (let i = 0; i < arrayOfKeys.length; i++) {
-                console.log(branchesArray[arrayOfKeys[i]])
-                let some=branchesArray.filter(e=>e.branchStart==branchesArray[arrayOfKeys[i]].branchEnd)
-                console.log(some)
 
+
+            
+            function findNext(object){
+                console.log(object)
+                let howMuchNext=branchesArray.filter(e=>e.branchStart==object.branchEnd)
+                if(howMuchNext.length==1){
+                    lines[newLine]=[]
+                    lines[newLine].push(object)
+                    console.log(howMuchNext)
+                    findNext(howMuchNext[0])
+                }else if(howMuchNext.length>1){
+                    newLine++
+                    lines[newLine]=[]
+                    lines[newLine].push(object)
                     
-                
+                    
                 }
+            }
+            
+            
+
+            for (let i = 0; i < arrayOfKeys.length; i++) {
+                
+                
+                findNext(branchesArray[arrayOfKeys[i]])
 
                 
             
 
         }
+        console.log(lines)
+    }
 
         createLines(branchesArray)
 
