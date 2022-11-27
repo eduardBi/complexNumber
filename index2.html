@@ -171,65 +171,23 @@
         ]
 
         function returnBranches(knots,elements){
-            // need to be splited into different functions
+            
             let reapeatedKnots=0;
             let brancharray=[];
             let pushinNumber=0;
             
-
-
-            
             for (let i = 0; i <knots.length; i++) {
-
                 
                 for (let j = 0; j < knots.length; j++) {
-
 
                     if(knots[i].id!=knots[j].id){
                         //knots cant be equal bacause they dont create a branch
                             let some=elements.filter(e=>e.startKnot==knots[i].id && e.endKnot==knots[j].id)
                             if(some.length!=0){
-                            brancharray.push(some)
+                                brancharray.push({startKnot:some[0].startKnot,endKnot:some[0].endKnot, data:some})
                             }
-                            console.log(brancharray)
-
-
-                            
-                            
-
-                            /*
-                            for (let f = 0; f < elements.length; f++) {
-                                // need to be sorted and can delete element after pushing to array
-                                
-                                let alredyInBrenchArray= brancharray.filter(e=>{ 
-                                return e.branchStart==elements[f].startKnot && e.branchEnd==elements[f].endKnot})
-                                
-                                
-
-                                if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length!=0){
-                                    //уже есть ветвь с этим элементом 
-                                    
-                                    brancharray[pushinNumber-1].data.push(elements[f])
-
-                                }else  if(elements[f].startKnot==knots[reapeatedKnots].id && elements[f].endKnot==knots[j+reapeatedKnots].id && alredyInBrenchArray.length==0){
-                                    //ещё нет 
-                                    
-                                    brancharray.push({branchStart:elements[f].startKnot,branchEnd:elements[f].endKnot,data:[]})
-                                    brancharray[pushinNumber].data.push(elements[f])
-                                    pushinNumber++;
-                                    
-                                }
-                                
-                            }*/
-
                     }
                 }   
-                    
-                    
-                
-                //last knot will never be executed because it isntt connected to anything            
-                
-
             }
             
             return brancharray
@@ -239,46 +197,43 @@
         
 
         function createLines(branchesArray){
-            let lines=[];
-            let arrayOfKeys=Object.keys(branchesArray);
-            let newLine=0
-            console.log(branchesArray)
-
-
-            
+            function StartParralel(object){
+                let startParalel=branchesArray.filter(e=>e.startKnot==object.startKnot)
+                console.log(startParalel)
+            }
+             
             function findNext(object){
-                console.log(object)
-                let howMuchNext=branchesArray.filter(e=>e.branchStart==object.branchEnd)
-                if(howMuchNext.length==1){
-                    lines[newLine]=[]
-                    lines[newLine].push(object)
-                    console.log(howMuchNext)
-                    findNext(howMuchNext[0])
-                }else if(howMuchNext.length>1){
-                    newLine++
-                    lines[newLine]=[]
-                    lines[newLine].push(object)
-                    
-                    
+                
+                let nextBranches=branchesArray.filter(e=>e.startKnot==object.endKnot)
+                console.log(nextBranches)
+
+
+            }
+
+            function linkType(object){
+                let isStraight=branchesArray.filter(e=>e.startKnot==object.startKnot)
+                
+                if(isStraight.length==1){
+                    console.log('straight')
+                    console.log(isStraight)
+                }else if(isStraight.length>1){
+                    console.log('paraleel')
+                    console.log(isStraight)
                 }
             }
-            
-            
-
-            for (let i = 0; i < arrayOfKeys.length; i++) {
+                    
+            for (let i = 0; i < branchesArray.length; i++) {
                 
+                linkType(branchesArray[i])
                 
-                findNext(branchesArray[arrayOfKeys[i]])
-
-                
-            
+            }
 
         }
-        console.log(lines)
-    }
+    
+    
 
+        
         createLines(branchesArray)
-
         
 
         let frequency=50
